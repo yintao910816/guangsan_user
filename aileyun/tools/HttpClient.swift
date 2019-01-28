@@ -17,6 +17,7 @@ class HttpClient {
         mg.responseSerializer.acceptableContentTypes = NSSet.init(objects: "application/json", "text/json", "text/javascript", "text/html", "text/plain","charset=utf-8") as? Set<String>
         mg.requestSerializer.timeoutInterval = 30
         mg.securityPolicy = AFSecurityPolicy.init(pinningMode: AFSSLPinningMode.none)
+        mg.requestSerializer = AFJSONRequestSerializer.init()
         
         mg.securityPolicy.allowInvalidCertificates = true
         mg.securityPolicy.validatesDomainName = false
@@ -147,22 +148,7 @@ extension HttpClient {
         
         HCPrint(message: URLString)
         HCPrint(message: parameters)
-        
-        let requestData = try? JSONSerialization.data(withJSONObject: parameters, options: .init(rawValue: 0))
-//        let requestJson = String.init(data: requestData, encoding: .utf8)
-
-        /**
-         NSMutableURLRequest *request = [[AFJSONRequestSerializer serializer] requestWithMethod:method URLString:url parameters:nil error:nil];
-         */
-        let request = AFJSONRequestSerializer().request(withMethod: "POST", urlString: URLString, parameters: nil, error: nil)
-        request.httpBody = requestData
-        
-        HttpClient.shareIntance.HCmanager.dataTask(with: request as URLRequest, uploadProgress: nil, downloadProgress: nil) { (res, responseObject, error) in
-            print(responseObject)
-            print(error)
-            print(res)
-        }
-        
+                
         HCmanager.post(URLString, parameters: parameters, progress: { (progress) in
             //
         }, success: { [weak self](task : URLSessionDataTask, responseObject : Any) in
