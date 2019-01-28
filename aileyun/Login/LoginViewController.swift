@@ -88,15 +88,16 @@ class LoginViewController: UIViewController {
         UserManager.shareIntance.HC_login(uname: accountInputOutlet.text!, pwd: passInputOutlet.text!) { [weak self](success, msg) in
             if success == true{
                 UserDefaults.standard.set(self?.accountInputOutlet.text!, forKey: kUserPhone)
-                
-                HttpRequestManager.shareIntance.HC_userInfo(callback: { (success, msg) in
-                    if success == true {
-                        SVProgressHUD.dismiss()
-                        UIApplication.shared.keyWindow?.rootViewController = MainTabBarController()
-                    }else{
-                        HCShowError(info: msg)
-                    }
-                })
+                UIApplication.shared.keyWindow?.rootViewController = MainTabBarController()
+
+//                HttpRequestManager.shareIntance.HC_userInfo(callback: { (success, msg) in
+//                    if success == true {
+//                        SVProgressHUD.dismiss()
+//                        UIApplication.shared.keyWindow?.rootViewController = MainTabBarController()
+//                    }else{
+//                        HCShowError(info: msg)
+//                    }
+//                })
             }else{
                 HCShowError(info: msg)
             }

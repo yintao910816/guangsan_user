@@ -66,32 +66,45 @@ extension HttpClient {
 //            HCPrint(message: responseObject)
             
             let ccb = CommonCallBack.init()
-            let resDic = responseObject as! NSDictionary
+            let resDic = responseObject as! [String: Any]
             
-            let tempCode = resDic.value(forKey: "infoCode") as? NSInteger
+            let tempCode = resDic["infoCode"] as? NSInteger
             
             if let tempCode = tempCode {
                 ccb.code = tempCode
             }else{
-                ccb.code = resDic.value(forKey: "code") as! NSInteger
+                ccb.code = resDic["code"] as! NSInteger
             }
            
             self.dealWithCode(code: ccb.code)
             
-            let tempS = resDic.value(forKey: "message") as? String
+            let tempS = resDic["message"] as? String
             
             if let tempS = tempS {
                 ccb.msg = tempS
             }else{
-                let s = resDic.value(forKey: "msg") as? String
+                let s = resDic["msg"] as? String
                 if let s = s {
                     ccb.msg = s
                 }
             }
             
-            ccb.data = resDic.value(forKey: "data") 
+            guard let dataJson = resDic["data"] as? [String: Any] else {
+                ccb.data = ""
+                callBack(ccb.data, ccb)
+                return
+            }
             
-            callBack(responseObject, ccb)
+            var retJson = [String: Any]()
+            for (key, value) in dataJson {
+                if (value as? NSNull) != nil  {
+                    retJson[key] = ""
+                }else {
+                    retJson[key] = value
+                }
+            }
+            
+            callBack(dataJson, ccb)
             
         }) { ( task : URLSessionDataTask?, error : Error) in
             
@@ -153,41 +166,49 @@ extension HttpClient {
             //
         }, success: { [weak self](task : URLSessionDataTask, responseObject : Any) in
             
+            HCPrint(message: URLString)
             HCPrint(message: responseObject)
             
             let ccb = CommonCallBack.init()
+            let resDic = responseObject as! [String: Any]
             
-            let resDic = responseObject as? NSDictionary
-            
-            guard let dic = resDic else{
-                callBack("", ccb)
-                return
-            }
-            
-            let tempCode = dic.value(forKey: "infoCode") as? NSInteger
+            let tempCode = resDic["infoCode"] as? Int
             
             if let tempCode = tempCode {
                 ccb.code = tempCode
             }else{
-                ccb.code = dic.value(forKey: "code") as! NSInteger
+                ccb.code = resDic["code"] as! Int
             }
             
             self?.dealWithCode(code: ccb.code)
             
-            let tempS = dic.value(forKey: "message") as? String
+            let tempS = resDic["message"] as? String
             
             if let tempS = tempS {
                 ccb.msg = tempS
             }else{
-                let s = dic.value(forKey: "msg") as? String
+                let s = resDic["msg"] as? String
                 if let s = s {
                     ccb.msg = s
                 }
             }
             
-            ccb.data = dic.value(forKey: "data")
+            guard let dataJson = resDic["data"] as? [String: Any] else {
+                ccb.data = ""
+                callBack(ccb.data, ccb)
+                return
+            }
             
-            callBack(responseObject, ccb)
+            var retJson = [String: Any]()
+            for (key, value) in dataJson {
+                if let _ = value as? NSNull  {
+                    retJson[key] = ""
+                }else {
+                    retJson[key] = value
+                }
+            }
+            
+            callBack(retJson, ccb)
             
         }) { [weak self](task : URLSessionDataTask?, error : Error) in
             HCPrint(message: error)
@@ -205,14 +226,12 @@ extension HttpClient {
         
     }
     
-    func dealWithCode(code : NSInteger){
-        
+    func dealWithCode(code : Int){
         HCPrint(message: code)
         
         if code == 401 {
             UserManager.shareIntance.logout()
         }
-    
     }
     
     
