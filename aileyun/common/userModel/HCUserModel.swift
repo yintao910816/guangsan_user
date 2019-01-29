@@ -14,7 +14,7 @@ class HCUserModel: NSObject {
     var nickname : String?
     var hospitalId : NSNumber?
     var id : NSNumber?
-    var token : String?
+    var token : String = ""
     
     
     convenience init(_ dic : [String : Any]) {

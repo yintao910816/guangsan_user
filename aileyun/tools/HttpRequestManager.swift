@@ -259,6 +259,7 @@ class HttpRequestManager {
                     
                     let model = HCUserModel.init(dic)
                     UserManager.shareIntance.HCUser = model
+                    HttpClient.shareIntance.HCmanager.requestSerializer.setValue(model.token, forHTTPHeaderField: "token")
                 }
                 callback(true, ccb.msg)
             }else{

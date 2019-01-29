@@ -51,6 +51,7 @@ extension HttpClient {
     func GET(_ URLString : String, parameters : NSDictionary?, callBack : @escaping HttpRequestCompleted){
         let parameDic = addCommonParameters(parameters)
         GET(URLString, requestKey : nil, parameters : parameDic, callBack : callBack)
+//        POST(URLString, parameters: parameters, callBack: callBack)
     }
     
     func GET(_ URLString : String, requestKey : String?, parameters : NSDictionary, callBack : @escaping HttpRequestCompleted){
@@ -207,7 +208,7 @@ extension HttpClient {
                     retJson[key] = value
                 }
             }
-            
+            ccb.data = retJson
             callBack(retJson, ccb)
             
         }) { [weak self](task : URLSessionDataTask?, error : Error) in
