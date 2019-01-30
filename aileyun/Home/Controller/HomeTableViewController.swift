@@ -208,8 +208,8 @@ class HomeTableViewController: BaseViewController {
 //        }
         
         //导航栏底色
-        self.view.insertSubview(naviBackV, aboveSubview: tableV)
-        
+//        self.view.insertSubview(naviBackV, aboveSubview: tableV)
+
         //诊疗流程
         selectV.guideBtn.addTarget(self, action: #selector(HomeTableViewController.treatFlow), for: UIControlEvents.touchUpInside)
         //暂时去之前的论坛
@@ -226,23 +226,23 @@ class HomeTableViewController: BaseViewController {
     }
     
     func setupNavibar(){
-        self.navigationItem.title = ""
-        
-        let contV = UIView.init(frame: CGRect.init(x: 0, y: 0, width: 44, height: 44))
-        contV.isUserInteractionEnabled = true
-        let tapG = UITapGestureRecognizer.init(target: self, action: #selector(HomeTableViewController.qrcodeVC))
-        contV.addGestureRecognizer(tapG)
-        
-        let qrcodeIV = UIImageView.init(frame: CGRect.init(x: 6, y: 10, width: 22, height: 22))
-        qrcodeIV.image = UIImage.init(named: "qrcodeBlack")
-        contV.addSubview(qrcodeIV)
-        
-        let leftItem = UIBarButtonItem.init(customView: contV)
-        self.navigationItem.leftBarButtonItem = leftItem
-        
-        messageBtn.addTarget(self, action: #selector(HomeTableViewController.messageAction), for: .touchUpInside)
-        let rightItem = UIBarButtonItem.init(customView: messageBtn)
-        self.navigationItem.rightBarButtonItem = rightItem
+//        self.navigationItem.title = ""
+//
+//        let contV = UIView.init(frame: CGRect.init(x: 0, y: 0, width: 44, height: 44))
+//        contV.isUserInteractionEnabled = true
+//        let tapG = UITapGestureRecognizer.init(target: self, action: #selector(HomeTableViewController.qrcodeVC))
+//        contV.addGestureRecognizer(tapG)
+//
+//        let qrcodeIV = UIImageView.init(frame: CGRect.init(x: 6, y: 10, width: 22, height: 22))
+//        qrcodeIV.image = UIImage.init(named: "qrcodeBlack")
+//        contV.addSubview(qrcodeIV)
+//
+//        let leftItem = UIBarButtonItem.init(customView: contV)
+//        self.navigationItem.leftBarButtonItem = leftItem
+//
+//        messageBtn.addTarget(self, action: #selector(HomeTableViewController.messageAction), for: .touchUpInside)
+//        let rightItem = UIBarButtonItem.init(customView: messageBtn)
+//        self.navigationItem.rightBarButtonItem = rightItem
     }
     
     func messageAction(){

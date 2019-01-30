@@ -15,31 +15,31 @@ class BaseViewController: UIViewController {
         d.backgroundColor = kdivisionColor
         return d
     }()
-    
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .default
-    }
+//
+//    override var preferredStatusBarStyle: UIStatusBarStyle {
+//        return .default
+//    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.automaticallyAdjustsScrollViewInsets = false
         
         self.view.backgroundColor = UIColor.white
-        self.view.addSubview(naviSepV)
+//        self.view.addSubview(naviSepV)
     }
     
     func notNeedSeparateV(){
-        naviSepV.removeFromSuperview()
+//        naviSepV.removeFromSuperview()
     }
-    
+//
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.navigationBar.tintColor = kLightTextColor
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : kLightTextColor]
         self.navigationController?.setNavigationBarHidden(false, animated: true)
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
+//
+//    override func didReceiveMemoryWarning() {
+//        super.didReceiveMemoryWarning()
+//    }
 
 }
