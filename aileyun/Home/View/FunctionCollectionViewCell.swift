@@ -16,7 +16,7 @@ class FunctionCollectionViewCell: UICollectionViewCell {
     
     var model : HomeFunctionModel?{
         didSet{
-            if let p = model?.path{
+            if let p = model?.iconPath{
 //                HCFindImageTool.shareIntance.HC_setImage(key: (model?.code)!, url: (model?.path)!, imgV: imgV)
                 imgV.HC_setImageFromURL(urlS: p, placeHolder: "上传图片")
             }else{

@@ -159,10 +159,6 @@ extension HttpClient {
     
     
     func POST(_ URLString : String, requestKey : String?, parameters : NSDictionary, callBack : @escaping HttpRequestCompleted){
-        
-        HCPrint(message: URLString)
-        HCPrint(message: parameters)
-                
         HCmanager.post(URLString, parameters: parameters, progress: { (progress) in
             //
         }, success: { [weak self](task : URLSessionDataTask, responseObject : Any) in
@@ -243,7 +239,7 @@ extension HttpClient {
             dic = NSMutableDictionary.init(dictionary: param)
         }
         
-        dic["token"] = UserManager.shareIntance.HCUser?.token ?? ""
+//        dic["token"] = UserManager.shareIntance.HCUser?.token ?? ""
         dic["deviceType"] = "iOS"
         
         let infoDic = Bundle.main.infoDictionary   

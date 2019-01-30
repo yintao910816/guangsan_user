@@ -35,7 +35,6 @@ class UserManager: NSObject {
 //                UMessage.setAlias(alias, type: hosId, response: { (result, err) in
 //                    //
 //                })
-                getForumSwitch()
             }else{
                 HCPrint(message: "unregisterRemoteNotification")
                 UMessage.unregisterForRemoteNotifications()
@@ -46,15 +45,6 @@ class UserManager: NSObject {
 
     var BindedModel : BindedModel?
     
-    
-    var forumSwitch : Bool = true{
-        didSet{
-            if forumSwitch == false{
-                UIApplication.shared.keyWindow?.rootViewController = MainTabBarController()
-            }
-        }
-    }
-    
     // 设计成单例
     static let shareIntance : UserManager = {
         let tools = UserManager()
@@ -64,40 +54,10 @@ class UserManager: NSObject {
     
     override init() {
         super.init()
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(UserManager.getForumSwitch), name: NSNotification.Name.init(BIND_SUCCESS), object: nil)
-        
-        let bool = UserDefaults.standard.value(forKey: kForumSwitch) as? Bool
-        if let bool = bool{
-            forumSwitch = bool
-        }
     }
     
     deinit {
         NotificationCenter.default.removeObserver(self)
-    }
-    
-    func getForumSwitch(){
-        HttpRequestManager.shareIntance.HC_forumSwitch { [weak self](bool) in
-            if bool == false{
-                self?.forumSwitch = false
-                UserDefaults.standard.set(false, forKey: kForumSwitch)
-            }
-        }
-    }
-    
-
-    //弃用
-    func loginBy(num : String, password : String, callback : @escaping (_ success : Bool, _ message : String)->()){
-        HttpRequestManager.shareIntance.loginBy(userName: num, password: password) { [weak self](success, model) in
-            if success == true {
-                self?.localUser = model
-                
-                callback(true, "登录成功！")
-            }else{
-                callback(false, "登录失败！")
-            }
-        }
     }
     
     func HC_login(uname: String, pwd: String, callback: @escaping (Bool, String) -> ()){

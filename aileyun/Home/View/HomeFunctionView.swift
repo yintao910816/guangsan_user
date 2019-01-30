@@ -60,7 +60,7 @@ class HomeFunctionView: UIView {
     
     func actionWithModel(model : HomeFunctionModel){
         
-        if let url = model.url {
+        if let url = model.functionUrl {
             if url.contains("reservation"){
                 register(urlS: url)
             }else if url == "#"{

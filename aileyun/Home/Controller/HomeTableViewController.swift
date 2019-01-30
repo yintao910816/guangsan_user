@@ -132,33 +132,33 @@ class HomeTableViewController: BaseViewController {
 //        HCDataProvideTool.shareIntance.addObserver(self, forKeyPath: "circleData", options: NSKeyValueObservingOptions.new, context: nil)
 
         //设置数据
-        SVProgressHUD.show()
-        HttpRequestManager.shareIntance.HC_getHrefH5URL(){[weak self](success, msg) in
-            if success == false{
-                HCPrint(message: "获取配置失败，从本地加载中")
-                
-                if let bbsFgiUrl = UserDefaults.standard.value(forKey: kbbsFgiUrl) {
-                    UserManager.shareIntance.HCUserInfo?.bbsFgiUrl = bbsFgiUrl as! String
-                }
-                
-                if let getBbsTokenUrl = UserDefaults.standard.value(forKey: kgetBbsTokenUrl) {
-                    UserManager.shareIntance.HCUserInfo?.getBbsTokenUrl = getBbsTokenUrl as! String
-                }
-                
-                if let findLastestTopics = UserDefaults.standard.value(forKey: kfindLastestTopics) {
-                    UserManager.shareIntance.HCUserInfo?.findLastestTopics = findLastestTopics as! String
-                }
-            }
-            
-            if let bbsToken = UserDefaults.standard.value(forKey: kBBSToken) {
-                UserManager.shareIntance.HCUserInfo?.BBSToken = bbsToken as! String
-            }else{
-                HttpRequestManager.shareIntance.HC_getBBSToken {(success, BBSToken) in
-                }
-            }
-            
-            self?.tableV.mj_header.beginRefreshing()
-        }
+//        SVProgressHUD.show()
+//        HttpRequestManager.shareIntance.HC_getHrefH5URL(){[weak self](success, msg) in
+//            if success == false{
+//                HCPrint(message: "获取配置失败，从本地加载中")
+//
+//                if let bbsFgiUrl = UserDefaults.standard.value(forKey: kbbsFgiUrl) {
+//                    UserManager.shareIntance.HCUserInfo?.bbsFgiUrl = bbsFgiUrl as! String
+//                }
+//
+//                if let getBbsTokenUrl = UserDefaults.standard.value(forKey: kgetBbsTokenUrl) {
+//                    UserManager.shareIntance.HCUserInfo?.getBbsTokenUrl = getBbsTokenUrl as! String
+//                }
+//
+//                if let findLastestTopics = UserDefaults.standard.value(forKey: kfindLastestTopics) {
+//                    UserManager.shareIntance.HCUserInfo?.findLastestTopics = findLastestTopics as! String
+//                }
+//            }
+//
+//            if let bbsToken = UserDefaults.standard.value(forKey: kBBSToken) {
+//                UserManager.shareIntance.HCUserInfo?.BBSToken = bbsToken as! String
+//            }else{
+//                HttpRequestManager.shareIntance.HC_getBBSToken {(success, BBSToken) in
+//                }
+//            }
+//
+//            self?.tableV.mj_header.beginRefreshing()
+//        }
         
         NotificationCenter.default.addObserver(self, selector: #selector(HomeTableViewController.markUnreadNum), name: NSNotification.Name.init(CLEAR_MSG_STATUS), object: nil)
         
@@ -195,11 +195,11 @@ class HomeTableViewController: BaseViewController {
         
         tableV.tableHeaderView = containerV
         
-        if UserManager.shareIntance.forumSwitch == false{
-            tableV.tableFooterView = UIView()
-        }else{
+//        if UserManager.shareIntance.forumSwitch == false{
+//            tableV.tableFooterView = UIView()
+//        }else{
             tableV.tableFooterView = moreInformationV
-        }
+//        }
         
         //导航栏底色
         self.view.insertSubview(naviBackV, aboveSubview: tableV)
@@ -242,18 +242,18 @@ class HomeTableViewController: BaseViewController {
     }
     
     func goodNewsDetail(){
-//        SVProgressHUD.show()
-//        HttpRequestManager.shareIntance.HC_getH5URL(keyCode: "GOOD_NEWS_2017") { [weak self](success, info) in
-//            if success == true {
-//                SVProgressHUD.dismiss()
-//                HCPrint(message: info)
-//                let webVC = WebViewController()
-//                webVC.url = info
-//                self?.navigationController?.pushViewController(webVC, animated: true)
-//            }else{
-//                HCShowError(info: info)
-//            }
-//        }
+        SVProgressHUD.show()
+        HttpRequestManager.shareIntance.HC_getH5URL(keyCode: "GOOD_NEWS_2017") { [weak self](success, info) in
+            if success == true {
+                SVProgressHUD.dismiss()
+                HCPrint(message: info)
+                let webVC = WebViewController()
+                webVC.url = info
+                self?.navigationController?.pushViewController(webVC, animated: true)
+            }else{
+                HCShowError(info: info)
+            }
+        }
     }
     
     func noticeDetail(){
@@ -319,113 +319,113 @@ class HomeTableViewController: BaseViewController {
     
     
     func markUnreadNum(){
-//        HttpRequestManager.shareIntance.HC_unreadNum { [weak self](model, msg) in
-//            if let m = model {
-//                self?.messageBtn.number = m.unread?.intValue
-//            }
-//        }
+        HttpRequestManager.shareIntance.HC_unreadNum { [weak self](model, msg) in
+            if let m = model {
+                self?.messageBtn.number = m.unread?.intValue
+            }
+        }
     }
     
     func requestData(){
         // 防止401导致未处理
-//        tableV.mj_header.endRefreshing()
-//        
-//        SVProgressHUD.show()
-//        
-//        HCDataProvideTool.shareIntance.requestCircleData()
-//        markUnreadNum()
-//        
-//        let group = DispatchGroup.init()
-//        
-//        group.enter()
-//        HttpRequestManager.shareIntance.HC_banner { [weak self](success, arr, msg) in
-//            if success == true{
-//                self?.picScrollV.dataArr = arr
-//            }else{
-//                HCShowError(info: msg)
-//            }
-//            group.leave()
-//        }
-//        
-//        group.enter()
-//        HttpRequestManager.shareIntance.HC_functionList { [weak self](success, arr, msg) in
-//            if success == true{
-//                self?.functionV.modelArr = arr
-//                self?.howManyLayer = CGFloat(((arr?.count)! - 1) / 4 + 1)
-//            }else{
-//                HCShowError(info: msg)
-//            }
-//            group.leave()
-//        }
-//        
-//        group.enter()
-//        // 今日知识
-//        let hospitalId = UserManager.shareIntance.HCUserInfo?.hospitalId?.intValue ?? 0
-//        HttpRequestManager.shareIntance.HC_knowledgeList(hospitalId: hospitalId) { [weak self](success, arr) in
-//            if success == true {
-//                self?.knowledgeVC.modelArr = arr
-//            }else{
-//                HCShowError(info: "网络错误")
-//            }
-//            group.leave()
-//        }
-//        
-//        group.enter()
-//        // H5地址
-//        HttpRequestManager.shareIntance.HC_getH5URL(keyCode: "EXPERT_GUIDANCE_2017") { [weak self](success, info) in
-//            if success == true {
-//                self?.expertGuidS = info
-//            }else{
-//                HCShowError(info: info)
-//            }
-//            group.leave()
-//        }
-//        
-//        group.enter()
-//        // H5地址
-//        HttpRequestManager.shareIntance.HC_getH5URL(keyCode: "CLASS_ONLINE_2017") { [weak self](success, info) in
-//            if success == true {
-//                self?.classOnline = info
-//            }else{
-//                HCShowError(info: info)
-//            }
-//            group.leave()
-//        }
-//        
-//        //公告
-//        group.enter()
-//        HttpRequestManager.shareIntance.HC_notice { [weak self](arr, s) in
-//            if let modelArr = arr{
-//                self?.noticeV.modelArr = modelArr
-//                
-//                self?.dealWithNote(arr: modelArr)
-//                
-//                //添加点击事件
-//                let tapG = UITapGestureRecognizer.init(target: self, action: #selector(HomeTableViewController.noticeDetail))
-//                self?.noticeV.addGestureRecognizer(tapG)
-//            }else{
-//                self?.shouldHideNoticeV = true
-//            }
-//            group.leave()
-//        }
-//        
-//        group.enter()
-//        HttpRequestManager.shareIntance.HC_goodnews { [weak self](modelArr, msg) in
-//            if let arr = modelArr{
-//                self?.gooodnewsV.modelArr = arr
-//                //添加点击事件
-//                let tapG = UITapGestureRecognizer.init(target: self, action: #selector(HomeTableViewController.goodNewsDetail))
-//                self?.gooodnewsV.addGestureRecognizer(tapG)
-//            }else{
-//            }
-//            group.leave()
-//        }
-//        
-//        
-//        group.notify(queue: DispatchQueue.main) {[weak self]()in
-//            SVProgressHUD.dismiss()
-//            self?.refreshView()
-//        }
+        tableV.mj_header.endRefreshing()
+        
+        SVProgressHUD.show()
+        
+        HCDataProvideTool.shareIntance.requestCircleData()
+        markUnreadNum()
+        
+        let group = DispatchGroup.init()
+        
+        group.enter()
+        HttpRequestManager.shareIntance.HC_banner { [weak self](success, arr, msg) in
+            if success == true{
+                self?.picScrollV.dataArr = arr
+            }else{
+                HCShowError(info: msg)
+            }
+            group.leave()
+        }
+        
+        group.enter()
+        HttpRequestManager.shareIntance.HC_functionList { [weak self](success, arr, msg) in
+            if success == true{
+                self?.functionV.modelArr = arr
+                self?.howManyLayer = CGFloat(((arr?.count)! - 1) / 4 + 1)
+            }else{
+                HCShowError(info: msg)
+            }
+            group.leave()
+        }
+        
+        group.enter()
+        // 今日知识
+        let hospitalId = UserManager.shareIntance.HCUserInfo?.hospitalId?.intValue ?? 0
+        HttpRequestManager.shareIntance.HC_knowledgeList(hospitalId: hospitalId) { [weak self](success, arr) in
+            if success == true {
+                self?.knowledgeVC.modelArr = arr
+            }else{
+                HCShowError(info: "网络错误")
+            }
+            group.leave()
+        }
+        
+        group.enter()
+        // H5地址
+        HttpRequestManager.shareIntance.HC_getH5URL(keyCode: "EXPERT_GUIDANCE_2017") { [weak self](success, info) in
+            if success == true {
+                self?.expertGuidS = info
+            }else{
+                HCShowError(info: info)
+            }
+            group.leave()
+        }
+        
+        group.enter()
+        // H5地址
+        HttpRequestManager.shareIntance.HC_getH5URL(keyCode: "CLASS_ONLINE_2017") { [weak self](success, info) in
+            if success == true {
+                self?.classOnline = info
+            }else{
+                HCShowError(info: info)
+            }
+            group.leave()
+        }
+        
+        //公告
+        group.enter()
+        HttpRequestManager.shareIntance.HC_notice { [weak self](arr, s) in
+            if let modelArr = arr{
+                self?.noticeV.modelArr = modelArr
+                
+                self?.dealWithNote(arr: modelArr)
+                
+                //添加点击事件
+                let tapG = UITapGestureRecognizer.init(target: self, action: #selector(HomeTableViewController.noticeDetail))
+                self?.noticeV.addGestureRecognizer(tapG)
+            }else{
+                self?.shouldHideNoticeV = true
+            }
+            group.leave()
+        }
+        
+        group.enter()
+        HttpRequestManager.shareIntance.HC_goodnews { [weak self](modelArr, msg) in
+            if let arr = modelArr{
+                self?.gooodnewsV.modelArr = arr
+                //添加点击事件
+                let tapG = UITapGestureRecognizer.init(target: self, action: #selector(HomeTableViewController.goodNewsDetail))
+                self?.gooodnewsV.addGestureRecognizer(tapG)
+            }else{
+            }
+            group.leave()
+        }
+        
+        
+        group.notify(queue: DispatchQueue.main) {[weak self]()in
+            SVProgressHUD.dismiss()
+            self?.refreshView()
+        }
     }
     
     
@@ -520,11 +520,11 @@ extension HomeTableViewController : UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if UserManager.shareIntance.forumSwitch == true{
+//        if UserManager.shareIntance.forumSwitch == true{
             return circleArr?.count ?? 0
-        }else{
-            return 0
-        }
+//        }else{
+//            return 0
+//        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -534,9 +534,9 @@ extension HomeTableViewController : UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        guard UserManager.shareIntance.forumSwitch == true else{
-            return UIView()
-        }
+//        guard UserManager.shareIntance.forumSwitch == true else{
+//            return UIView()
+//        }
         
         let contV = UIView.init(frame: CGRect.init(x: 0, y: 0, width: SCREEN_WIDTH, height: 50))
         contV.backgroundColor = UIColor.white
@@ -590,9 +590,9 @@ extension HomeTableViewController : UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        guard UserManager.shareIntance.forumSwitch == true else{
-            return 0
-        }
+//        guard UserManager.shareIntance.forumSwitch == true else{
+//            return 0
+//        }
         return 50
     }
     

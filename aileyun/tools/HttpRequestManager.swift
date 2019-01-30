@@ -366,7 +366,7 @@ class HttpRequestManager {
     
     //首页banner
     func HC_banner(callback : @escaping (Bool, [HomeBannerModel]?, String)->()){
-        HttpClient.shareIntance.GET(HC_BANNER, parameters: nil) { (result, ccb) in
+        HttpClient.shareIntance.POST(HC_BANNER, parameters: ["code":"banner"]) { (result, ccb) in
             if ccb.success(){
                 let dicArr = ccb.data as? [[String : Any]]
                 if let dicArr = dicArr {
@@ -388,7 +388,7 @@ class HttpRequestManager {
     //首页功能导航
 
     func HC_functionList(callback : @escaping (Bool, [HomeFunctionModel]?, String)->()){
-        HttpClient.shareIntance.GET(HC_FUNCTIONLIST, parameters: nil) { (result, ccb) in
+        HttpClient.shareIntance.POST(HC_FUNCTIONLIST, parameters: nil) { (result, ccb) in
             if ccb.success(){
 //                HCPrint(message: result)
                 let dicArr = ccb.data as? [[String : Any]]
@@ -676,7 +676,7 @@ class HttpRequestManager {
     
     func HC_knowledgeList(hospitalId : NSInteger, callback : @escaping (Bool, [KnowledgeListModel]?)->()){
         let dic = NSDictionary.init(dictionary: ["hospitalId" : hospitalId])
-        HttpClient.shareIntance.GET(HC_KNOWLEDGE_LIST, parameters: dic) { (result, ccb) in
+        HttpClient.shareIntance.POST(HC_KNOWLEDGE_LIST, parameters: dic) { (result, ccb) in
             if ccb.success() {
                 let tempArr = ccb.data as! NSArray
                 var arr = [KnowledgeListModel]()
@@ -969,7 +969,7 @@ class HttpRequestManager {
     // 获取Ht5地址  keyCode
     func HC_getHrefH5URL(callback : @escaping (Bool, String)->()){
         let dic = NSDictionary.init(dictionary: ["keyCode" : "BBS_REQUEST_URL_2017"])
-        HttpClient.shareIntance.GET(HC_HREF_H5, parameters: dic) { (result, ccb) in
+        HttpClient.shareIntance.POST(HC_HREF_H5, parameters: dic) { (result, ccb) in
             if ccb.success() {
                 
                 let dic = ccb.data as? [String : Any]
@@ -1013,7 +1013,7 @@ class HttpRequestManager {
         if let findLastestTopics = UserManager.shareIntance.HCUserInfo?.findLastestTopics {
             //鼓楼
 //            let dic = NSDictionary.init(dictionary: ["hospitalId" : 19])
-            HttpClient.shareIntance.GET(findLastestTopics, parameters: nil, callBack: { (result, ccb) in
+            HttpClient.shareIntance.POST(findLastestTopics, parameters: nil, callBack: { (result, ccb) in
                 if ccb.success() {
                     let dicArr = ccb.data as! [[String : Any]]
                     var modelArr = [HCCircleModel]()
@@ -1089,7 +1089,7 @@ class HttpRequestManager {
     
     func HC_notice(callback : @escaping ([NoticeHomeVModel]?, String)->()){  //pageNum=1&pageSize=10
         let dic = NSDictionary.init(dictionary: ["pageNum" : 1, "pageSize" : 10])
-        HttpClient.shareIntance.GET(HC_NOTICE, parameters: dic) { (result, ccb) in
+        HttpClient.shareIntance.POST(HC_NOTICE, parameters: dic) { (result, ccb) in
 //            HCPrint(message: result)
             if ccb.success(){
                 let dic = ccb.data as! [String : Any]
@@ -1112,7 +1112,7 @@ class HttpRequestManager {
     }
     
     func HC_goodnews(callback : @escaping([GoodNewsModel]?, String)->()){
-        HttpClient.shareIntance.GET(HC_GOODNEWS, parameters: nil) { (result, ccb) in
+        HttpClient.shareIntance.POST(HC_GOODNEWS, parameters: nil) { (result, ccb) in
             if ccb.success(){
                 let dic = ccb.data as! [String : Any]
                 let arr = dic["prosperityList"] as? NSArray
@@ -1172,19 +1172,6 @@ class HttpRequestManager {
         }
     }
     
-    //HC_FORUM_SWITCH
-    func HC_forumSwitch(callback : @escaping(Bool)->()){
-        HttpClient.shareIntance.GET(HC_FORUM_SWITCH, parameters: nil) { (result, ccb) in
-//            HCPrint(message: result)
-            if let number = ccb.data as? NSNumber{
-                if number.intValue == 0 {
-                    callback(false)
-                }else{
-                    callback(true)
-                }
-            }
-        }
-    }
 }
 
 

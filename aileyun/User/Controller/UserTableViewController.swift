@@ -15,11 +15,11 @@ class UserTableViewController: UIViewController {
     
     var titleArr : [[String]]{
         get{
-            if UserManager.shareIntance.forumSwitch == true{
+//            if UserManager.shareIntance.forumSwitch == true{
                 return [["绑定机构"], ["我的消息", "我的关注", "我的论坛"], ["设置", "软件分享", "用户反馈"]]
-            }else{
-                return [["绑定机构"], ["我的消息"], ["设置", "软件分享", "用户反馈"]]
-            }
+//            }else{
+//                return [["绑定机构"], ["我的消息"], ["设置", "软件分享", "用户反馈"]]
+//            }
         }
     }
     

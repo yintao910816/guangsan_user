@@ -19,8 +19,10 @@ class HomeFunctionModel: NSObject {
     
     var isvalid : String?
     var createdate : NSNumber?
-    var path : String?
-    var url : String?
+    var iconPath : String?
+    var functionUrl : String?
+    
+    var unitId: String = ""
     
     var isBind : NSNumber?
     

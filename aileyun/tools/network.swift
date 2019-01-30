@@ -126,9 +126,9 @@ let HC_VALIDATE = HC_HOST_URL + "api/patient/validate"
 //用户信息 get
 let HC_USERINFO = HC_HOST_URL + "api/patient/findInfo"
 //banner
-let HC_BANNER = HC_HOST_URL + "api/patient/index/bannerList"
+let HC_BANNER = HC_HOST_URL + "api/index/selectBanner"
 //首页功能导航
-let HC_FUNCTIONLIST = HC_HOST_URL + "api/patient/index/functionList"
+let HC_FUNCTIONLIST = HC_HOST_URL + "api/index/select"
 // 第三方登录
 let HC_THIRD_LOGIN = HC_HOST_URL + "api/patient/oauthLogin"
 //信息绑定
@@ -180,7 +180,7 @@ let HC_REVIEW_CONSULT = HC_HOST_URL + "api/patient/consult/patientReviewAdd"
 //提交咨询问题
 let HC_ADD_CONSULT = HC_HOST_URL + "api/patient/consult/patientConsultAdd"
 //论坛H5界面地址  keyCode
-let HC_HREF_H5 = HC_HOST_URL + "api/patient/index/hrefH5"
+let HC_HREF_H5 = HC_HOST_URL + "api/index/unitSetting"
 //喜报
 let HC_GOODNEWS = HC_HOST_URL + "api/patient/index/prosperity"
 // 消息未读数量
@@ -190,10 +190,6 @@ let HC_CLEAR_STATUS = HC_HOST_URL + "api/patient/me/readMessageByType"
 //点击统计
 let HC_CLICK_COUNT = HC_HOST_URL + "api/patient/sysApplication/addClickCount/"
 //首页公告
-let HC_NOTICE = HC_HOST_URL + "api/patient/index/noticeCom"
-
-// 论坛开关  http://app.ivfcn.com/patient-api/api/patient/index/checkBBSOpenStatus
-let HC_FORUM_SWITCH = HC_HOST_URL + "api/patient/index/checkBBSOpenStatus"
-
+let HC_NOTICE = HC_HOST_URL + "api/index/noticeList"
 
 
