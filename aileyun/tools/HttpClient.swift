@@ -24,7 +24,7 @@ class HttpClient {
         
         mg.requestSerializer.setValue("36", forHTTPHeaderField: "unitId")
         mg.requestSerializer.setValue("application/json", forHTTPHeaderField: "Content-Type")
-//        mg.requestSerializer.setValue("", forHTTPHeaderField: "token")
+//        mg.requestSerializer.setValue("REQ3QzQxREI0Qzc5REY3MQ==", forHTTPHeaderField: "token")
 
         return mg
     }()
@@ -55,7 +55,6 @@ extension HttpClient {
     }
     
     func GET(_ URLString : String, requestKey : String?, parameters : NSDictionary, callBack : @escaping HttpRequestCompleted){
-        
         HCPrint(message: URLString)
         HCPrint(message: parameters)
         
@@ -190,22 +189,8 @@ extension HttpClient {
                 }
             }
             
-            guard let dataJson = resDic["data"] as? [String: Any] else {
-                ccb.data = ""
-                callBack(ccb.data, ccb)
-                return
-            }
-            
-            var retJson = [String: Any]()
-            for (key, value) in dataJson {
-                if let _ = value as? NSNull  {
-                    retJson[key] = ""
-                }else {
-                    retJson[key] = value
-                }
-            }
-            ccb.data = retJson
-            callBack(retJson, ccb)
+            ccb.data = resDic
+            callBack(resDic, ccb)
             
         }) { [weak self](task : URLSessionDataTask?, error : Error) in
             HCPrint(message: error)

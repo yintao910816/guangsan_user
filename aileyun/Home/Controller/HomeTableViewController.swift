@@ -124,6 +124,12 @@ class HomeTableViewController: BaseViewController {
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -132,7 +138,7 @@ class HomeTableViewController: BaseViewController {
 //        HCDataProvideTool.shareIntance.addObserver(self, forKeyPath: "circleData", options: NSKeyValueObservingOptions.new, context: nil)
 
         //设置数据
-//        SVProgressHUD.show()
+        SVProgressHUD.show()
 //        HttpRequestManager.shareIntance.HC_getHrefH5URL(){[weak self](success, msg) in
 //            if success == false{
 //                HCPrint(message: "获取配置失败，从本地加载中")
@@ -176,7 +182,7 @@ class HomeTableViewController: BaseViewController {
     
     
     func initUI(){
-        setupNavibar()
+//        setupNavibar()
         
         self.view.addSubview(tableV)
         tableV.register(treasuryTableViewCell.self, forCellReuseIdentifier: reuseIdentifier)
@@ -215,6 +221,8 @@ class HomeTableViewController: BaseViewController {
         headRefresher?.setTitle("正在请求数据", for: .refreshing)
 
         tableV.mj_header = headRefresher
+        
+        tableV.mj_header.beginRefreshing()
     }
     
     func setupNavibar(){
@@ -257,22 +265,22 @@ class HomeTableViewController: BaseViewController {
     }
     
     func noticeDetail(){
-//        SVProgressHUD.show()
-//        if noticeV.modelArr![noticeV.row].typeCom == "dynamic" {
-//            let notIdS = String.init(format: "%d", (noticeV.modelArr![noticeV.row].id!.intValue))
-//            HttpRequestManager.shareIntance.HC_getH5URL(keyCode: "NOTICE_DETAIL_URL", callback: { [weak self](success, urlS) in
-//                SVProgressHUD.dismiss()
-//                if success == true{
-//                    let webVC = WebViewController()
-//                    webVC.url = urlS + "?noticeId=" + notIdS
-//                    self?.navigationController?.pushViewController(webVC, animated: true)
-//                }else{
-//                    HCShowError(info: urlS)
-//                }
-//            })
-//        }else{
-//            messageAction()
-//        }
+        SVProgressHUD.show()
+        if noticeV.modelArr![noticeV.row].typeCom == "dynamic" {
+            let notIdS = String.init(format: "%d", (noticeV.modelArr![noticeV.row].id!.intValue))
+            HttpRequestManager.shareIntance.HC_getH5URL(keyCode: "NOTICE_DETAIL_URL", callback: { [weak self](success, urlS) in
+                SVProgressHUD.dismiss()
+                if success == true{
+                    let webVC = WebViewController()
+                    webVC.url = urlS + "?noticeId=" + notIdS
+                    self?.navigationController?.pushViewController(webVC, animated: true)
+                }else{
+                    HCShowError(info: urlS)
+                }
+            })
+        }else{
+            messageAction()
+        }
     }
     
     func qrcodeVC(){
@@ -280,41 +288,41 @@ class HomeTableViewController: BaseViewController {
     }
 
     func refreshView(){
-//        guard let layer = howManyLayer else{
-//            return
-//        }
-//        let headV = tableV.tableHeaderView
-//        functionV.frame = CGRect.init(x: 0, y: ScrollImageVHeight, width: SCREEN_WIDTH, height: FuncSizeWidth * layer)
-//        noticeV.frame = CGRect.init(x: 0, y: ScrollImageVHeight + FuncSizeWidth * layer + ViewGap, width: SCREEN_WIDTH, height: NoticeViewHeight)
-//        if shouldHideNoticeV == false{
-//            headV?.frame = CGRect.init(x: 0, y: 0, width: SCREEN_WIDTH, height: ScrollImageVHeight + FuncSizeWidth * layer + SelectViewHeight + GoodnewsHeight + NoticeViewHeight + ViewGap * 4 + KnownledgeViewHeight)
-//            selectV.snp.updateConstraints({ (make) in
-//                make.left.right.equalTo(noticeV)
-//                make.top.equalTo(noticeV.snp.bottom).offset(ViewGap)
-//                make.height.equalTo(SelectViewHeight)
-//            })
-//        }else{
-//            headV?.frame = CGRect.init(x: 0, y: 0, width: SCREEN_WIDTH, height: ScrollImageVHeight + FuncSizeWidth * layer + SelectViewHeight + GoodnewsHeight + ViewGap * 3 + KnownledgeViewHeight)
-//            selectV.snp.updateConstraints({ (make) in
-//                make.left.right.equalTo(functionV)
-//                make.top.equalTo(functionV.snp.bottom).offset(ViewGap)
-//                make.height.equalTo(SelectViewHeight)
-//            })
-//        }
-//
-//        gooodnewsV.snp.updateConstraints ({ (make) in
-//            make.left.right.equalTo(functionV)
-//            make.top.equalTo(selectV.snp.bottom).offset(ViewGap)
-//            make.height.equalTo(GoodnewsHeight)
-//        })
-//
-//        knowledgeVC.view.snp.updateConstraints { (make) in
-//            make.left.right.equalTo(functionV)
-//            make.top.equalTo(gooodnewsV.snp.bottom).offset(ViewGap)
-//            make.height.equalTo(KnownledgeViewHeight)
-//        }
-//
-//        tableV.tableHeaderView = headV
+        guard let layer = howManyLayer else{
+            return
+        }
+        let headV = tableV.tableHeaderView
+        functionV.frame = CGRect.init(x: 0, y: ScrollImageVHeight, width: SCREEN_WIDTH, height: FuncSizeWidth * layer)
+        noticeV.frame = CGRect.init(x: 0, y: ScrollImageVHeight + FuncSizeWidth * layer + ViewGap, width: SCREEN_WIDTH, height: NoticeViewHeight)
+        if shouldHideNoticeV == false{
+            headV?.frame = CGRect.init(x: 0, y: 0, width: SCREEN_WIDTH, height: ScrollImageVHeight + FuncSizeWidth * layer + SelectViewHeight + GoodnewsHeight + NoticeViewHeight + ViewGap * 4 + KnownledgeViewHeight)
+            selectV.snp.updateConstraints({ (make) in
+                make.left.right.equalTo(noticeV)
+                make.top.equalTo(noticeV.snp.bottom).offset(ViewGap)
+                make.height.equalTo(SelectViewHeight)
+            })
+        }else{
+            headV?.frame = CGRect.init(x: 0, y: 0, width: SCREEN_WIDTH, height: ScrollImageVHeight + FuncSizeWidth * layer + SelectViewHeight + GoodnewsHeight + ViewGap * 3 + KnownledgeViewHeight)
+            selectV.snp.updateConstraints({ (make) in
+                make.left.right.equalTo(functionV)
+                make.top.equalTo(functionV.snp.bottom).offset(ViewGap)
+                make.height.equalTo(SelectViewHeight)
+            })
+        }
+
+        gooodnewsV.snp.updateConstraints ({ (make) in
+            make.left.right.equalTo(functionV)
+            make.top.equalTo(selectV.snp.bottom).offset(ViewGap)
+            make.height.equalTo(GoodnewsHeight)
+        })
+
+        knowledgeVC.view.snp.updateConstraints { (make) in
+            make.left.right.equalTo(functionV)
+            make.top.equalTo(gooodnewsV.snp.bottom).offset(ViewGap)
+            make.height.equalTo(KnownledgeViewHeight)
+        }
+
+        tableV.tableHeaderView = headV
     }
     
     
@@ -332,8 +340,8 @@ class HomeTableViewController: BaseViewController {
         
         SVProgressHUD.show()
         
-        HCDataProvideTool.shareIntance.requestCircleData()
-        markUnreadNum()
+//        HCDataProvideTool.shareIntance.requestCircleData()
+//        markUnreadNum()
         
         let group = DispatchGroup.init()
         
@@ -370,56 +378,56 @@ class HomeTableViewController: BaseViewController {
             group.leave()
         }
         
-        group.enter()
+//        group.enter()
         // H5地址
-        HttpRequestManager.shareIntance.HC_getH5URL(keyCode: "EXPERT_GUIDANCE_2017") { [weak self](success, info) in
-            if success == true {
-                self?.expertGuidS = info
-            }else{
-                HCShowError(info: info)
-            }
-            group.leave()
-        }
-        
-        group.enter()
+//        HttpRequestManager.shareIntance.HC_getH5URL(keyCode: "EXPERT_GUIDANCE_2017") { [weak self](success, info) in
+//            if success == true {
+//                self?.expertGuidS = info
+//            }else{
+//                HCShowError(info: info)
+//            }
+//            group.leave()
+//        }
+//
+//        group.enter()
         // H5地址
-        HttpRequestManager.shareIntance.HC_getH5URL(keyCode: "CLASS_ONLINE_2017") { [weak self](success, info) in
-            if success == true {
-                self?.classOnline = info
-            }else{
-                HCShowError(info: info)
-            }
-            group.leave()
-        }
+//        HttpRequestManager.shareIntance.HC_getH5URL(keyCode: "CLASS_ONLINE_2017") { [weak self](success, info) in
+//            if success == true {
+//                self?.classOnline = info
+//            }else{
+//                HCShowError(info: info)
+//            }
+//            group.leave()
+//        }
         
         //公告
-        group.enter()
-        HttpRequestManager.shareIntance.HC_notice { [weak self](arr, s) in
-            if let modelArr = arr{
-                self?.noticeV.modelArr = modelArr
-                
-                self?.dealWithNote(arr: modelArr)
-                
-                //添加点击事件
-                let tapG = UITapGestureRecognizer.init(target: self, action: #selector(HomeTableViewController.noticeDetail))
-                self?.noticeV.addGestureRecognizer(tapG)
-            }else{
-                self?.shouldHideNoticeV = true
-            }
-            group.leave()
-        }
+//        group.enter()
+//        HttpRequestManager.shareIntance.HC_notice { [weak self](arr, s) in
+//            if let modelArr = arr{
+//                self?.noticeV.modelArr = modelArr
+//
+//                self?.dealWithNote(arr: modelArr)
+//
+//                //添加点击事件
+//                let tapG = UITapGestureRecognizer.init(target: self, action: #selector(HomeTableViewController.noticeDetail))
+//                self?.noticeV.addGestureRecognizer(tapG)
+//            }else{
+//                self?.shouldHideNoticeV = true
+//            }
+//            group.leave()
+//        }
         
-        group.enter()
-        HttpRequestManager.shareIntance.HC_goodnews { [weak self](modelArr, msg) in
-            if let arr = modelArr{
-                self?.gooodnewsV.modelArr = arr
-                //添加点击事件
-                let tapG = UITapGestureRecognizer.init(target: self, action: #selector(HomeTableViewController.goodNewsDetail))
-                self?.gooodnewsV.addGestureRecognizer(tapG)
-            }else{
-            }
-            group.leave()
-        }
+//        group.enter()
+//        HttpRequestManager.shareIntance.HC_goodnews { [weak self](modelArr, msg) in
+//            if let arr = modelArr{
+//                self?.gooodnewsV.modelArr = arr
+//                //添加点击事件
+//                let tapG = UITapGestureRecognizer.init(target: self, action: #selector(HomeTableViewController.goodNewsDetail))
+//                self?.gooodnewsV.addGestureRecognizer(tapG)
+//            }else{
+//            }
+//            group.leave()
+//        }
         
         
         group.notify(queue: DispatchQueue.main) {[weak self]()in

@@ -253,11 +253,12 @@ class HttpRequestManager {
         HttpClient.shareIntance.POST(HC_LOGIN, parameters: dic) { (result, ccb) in
             if ccb.success(){
                 let dic = ccb.data as? [String : Any]
-                if let dic = dic {
+                if let dic = dic?["data"] as? [String: Any] {
+                    let noNullDic = HttpRequestManager.shareIntance.dealNull(data: dic)
                     
-                    UserDefaults.standard.set(dic, forKey: kUserDic)
+                    UserDefaults.standard.set(noNullDic, forKey: kUserDic)
                     
-                    let model = HCUserModel.init(dic)
+                    let model = HCUserModel.init(noNullDic)
                     UserManager.shareIntance.HCUser = model
                     HttpClient.shareIntance.HCmanager.requestSerializer.setValue(model.token, forHTTPHeaderField: "token")
                 }
@@ -368,11 +369,11 @@ class HttpRequestManager {
     func HC_banner(callback : @escaping (Bool, [HomeBannerModel]?, String)->()){
         HttpClient.shareIntance.POST(HC_BANNER, parameters: ["code":"banner"]) { (result, ccb) in
             if ccb.success(){
-                let dicArr = ccb.data as? [[String : Any]]
-                if let dicArr = dicArr {
+                let jsonData = result as? [String : Any]
+                if let dicArr = jsonData?["data"] as? [[String: Any]] {
                     var arr = [HomeBannerModel]()
                     for dic in dicArr {
-                        let m = HomeBannerModel.init(dic)
+                        let m = HomeBannerModel.init(HttpRequestManager.shareIntance.dealNull(data: dic))
                         arr.append(m)
                     }
                     callback(true, arr, ccb.msg)
@@ -390,12 +391,11 @@ class HttpRequestManager {
     func HC_functionList(callback : @escaping (Bool, [HomeFunctionModel]?, String)->()){
         HttpClient.shareIntance.POST(HC_FUNCTIONLIST, parameters: nil) { (result, ccb) in
             if ccb.success(){
-//                HCPrint(message: result)
-                let dicArr = ccb.data as? [[String : Any]]
-                if let dicArr = dicArr {
+                let jsonData = ccb.data as? [String : Any]
+                if let dicArr = jsonData?["data"] as? [[String: Any]] {
                     var arr = [HomeFunctionModel]()
                     for dic in dicArr {
-                        let m = HomeFunctionModel.init(dic)
+                        let m = HomeFunctionModel.init(HttpRequestManager.shareIntance.dealNull(data: dic))
                         arr.append(m)
                     }
                     callback(true, arr, ccb.msg)
@@ -1174,5 +1174,19 @@ class HttpRequestManager {
     
 }
 
-
+extension HttpRequestManager {
+    
+    fileprivate func dealNull(data: [String: Any]) ->[String: Any] {
+        var retJson = [String: Any]()
+        for (key, value) in data {
+            if (value as? NSNull) != nil  {
+                retJson[key] = ""
+            }else {
+                retJson[key] = value
+            }
+        }
+        HCPrint(message: retJson)
+        return retJson
+    }
+}
 

@@ -150,16 +150,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate{
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
-        HttpRequestManager.shareIntance.HC_getUpdateLock(callback: {(isOn)in
-            if isOn == true{
-                HCPrint(message: "打开版本检测")
-                HttpClient.shareIntance.CheckVersion()
-            }else{
-                HCPrint(message: "关闭版本检测")
-            }
-        })
-        NetworkStatusTool.NetworkingStatus()
-        application.applicationIconBadgeNumber = 0
+//        HttpRequestManager.shareIntance.HC_getUpdateLock(callback: {(isOn)in
+//            if isOn == true{
+//                HCPrint(message: "打开版本检测")
+//                HttpClient.shareIntance.CheckVersion()
+//            }else{
+//                HCPrint(message: "关闭版本检测")
+//            }
+//        })
+//        NetworkStatusTool.NetworkingStatus()
+//        application.applicationIconBadgeNumber = 0
         
         
     }

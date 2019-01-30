@@ -12,19 +12,19 @@ class HomeFunctionModel: NSObject {
     
     
     var name : String?
-    var id : NSNumber?
+    var id : NSNumber = NSNumber.init(value: 0)
     var code : String?
-    var modifydate : NSNumber?
+    var modifydate : String = ""
     var remark : String?
     
     var isvalid : String?
-    var createdate : NSNumber?
+    var createdate : String = ""
     var iconPath : String?
     var functionUrl : String?
     
-    var unitId: String = ""
+    var unitId: NSNumber = NSNumber.init(value: 0)
     
-    var isBind : NSNumber?
+    var isBind : String = ""
     
     // MARK:- 构造函数
     init(_ dict : [String : Any]) {

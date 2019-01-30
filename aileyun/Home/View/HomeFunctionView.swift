@@ -60,45 +60,50 @@ class HomeFunctionView: UIView {
     
     func actionWithModel(model : HomeFunctionModel){
         
-        if let url = model.functionUrl {
-            if url.contains("reservation"){
-                register(urlS: url)
-            }else if url == "#"{
-                if let code = model.code{
-                    switch code {
-                    case "BOUND_HORPITAL":
-                        bind()
-                    default:
-                        HCPrint(message: code + " 没有url")
-                    }
-                }else{
-                    HCShowError(info: "出错：code为空")
-                }
-            }else{
-                if let needBind = model.isBind {
-                    if needBind.intValue == 1 {
-                        guard UserManager.shareIntance.BindedModel != nil else{
-                            SVProgressHUD.show()
-                            HttpRequestManager.shareIntance.HC_checkHospitalBind(patientId: (UserManager.shareIntance.HCUser!.id?.intValue)!) {[weak self](success, model) in
-                                SVProgressHUD.dismiss()
-                                if success == true {
-                                    //已绑定
-                                    let webVC = WebViewController()
-                                    webVC.url = url
-                                    self?.naviVC?.pushViewController(webVC, animated: true)
-                                }else{
-                                    self?.naviVC?.pushViewController(BindHospitalViewController(), animated: true)
-                                    showAlert(title: "提醒", message: "此功能需要绑定就诊卡")
-                                }
-                            }
-                            return
-                        }
-                    }
-                    let webVC = WebViewController()
-                    webVC.url = url
-                    naviVC?.pushViewController(webVC, animated: true)
-                }
-            }
+        if let functionUrl = model.functionUrl, let url = functionUrl.components(separatedBy: "#").first {
+            let webVC = WebViewController()
+            webVC.url = url
+            naviVC?.pushViewController(webVC, animated: true)
+
+//            if url.contains("reservation"){
+//                register(urlS: url)
+//            }else if url == "#"{
+//                if let code = model.code{
+//                    switch code {
+//                    case "BOUND_HORPITAL":
+//                        bind()
+//                    default:
+//                        HCPrint(message: code + " 没有url")
+//                    }
+//                }else{
+//                    HCShowError(info: "出错：code为空")
+//                }
+//            }
+//            else{
+//                if let needBind = model.isBind {
+//                    if needBind.intValue == 1 {
+//                        guard UserManager.shareIntance.BindedModel != nil else{
+//                            SVProgressHUD.show()
+//                            HttpRequestManager.shareIntance.HC_checkHospitalBind(patientId: (UserManager.shareIntance.HCUser!.id?.intValue)!) {[weak self](success, model) in
+//                                SVProgressHUD.dismiss()
+//                                if success == true {
+//                                    //已绑定
+//                                    let webVC = WebViewController()
+//                                    webVC.url = url
+//                                    self?.naviVC?.pushViewController(webVC, animated: true)
+//                                }else{
+//                                    self?.naviVC?.pushViewController(BindHospitalViewController(), animated: true)
+//                                    showAlert(title: "提醒", message: "此功能需要绑定就诊卡")
+//                                }
+//                            }
+//                            return
+//                        }
+//                    }
+//                    let webVC = WebViewController()
+//                    webVC.url = url
+//                    naviVC?.pushViewController(webVC, animated: true)
+//                }
+//            }
         }else{
           HCShowError(info: "功能暂不开放")
         }
