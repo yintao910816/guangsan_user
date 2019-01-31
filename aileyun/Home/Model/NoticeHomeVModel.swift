@@ -10,18 +10,18 @@ import UIKit
 
 class NoticeHomeVModel: NSObject {
     
-    
-    var content : String = "您有新的通知提醒，点击查看详情"
     var id : NSNumber?
-    var popFlag : NSNumber?    // 1   需要弹窗
-    var typeCom : String?
+    var type : String?
     var title : String = "通知提醒"
-    
-    var hospitalId : String?
-    var type : NSNumber?
-    var createTime : String?
+    var content : String = "您有新的通知提醒，点击查看详情"
     var url : String?
-
+    var createDate : String?
+    var modifyDate : String?
+    var validDate : String?
+    var creates: String?
+    var modifys: String?
+    var bak: String?
+    var unitId: NSNumber?
     
     // MARK:- 构造函数
     init(_ dict : [String : Any]) {

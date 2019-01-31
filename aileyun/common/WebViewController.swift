@@ -13,47 +13,48 @@ import SVProgressHUD
 class WebViewController: BaseViewController {
     var url : String?{
         didSet{
-            HCPrint(message: url)
-            if url != oldValue{
-                let hospId : String!
-                if let i = UserManager.shareIntance.HCUser?.hospitalId {
-                    hospId = String.init(format: "%d", i.intValue)
-                }else{
-                    hospId = "0"
-                }
-                
-                let token = UserManager.shareIntance.HCUser?.token ?? "noToken"
-                
-                if url!.contains("?"){
-                    if url!.contains("hospitalId"){
-                        if url!.hasSuffix("&"){
-                            url = url! + "token=" + token + "&navHead=aly"
-                            requestData()
-                        }else if url!.hasSuffix("token="){
-                            url = url! + token + "&navHead=aly"
-                            requestData()
-                        }else{
-                            url = url! + "&token=" + token + "&navHead=aly"
-                            requestData()
-                        }
-                    }else{
-                        if url!.hasSuffix("&"){
-                            url = url! + "token=" + token + "&hospitalId=" + hospId + "&navHead=aly"
-                            requestData()
-                        }else if url!.hasSuffix("token="){
-                            url = url! + token + "&hospitalId=" + hospId + "&navHead=aly"
-                            requestData()
-                        }else{
-                            url = url! + "&token=" + token + "&hospitalId=" + hospId + "&navHead=aly"
-                            requestData()
-                        }
-                    }
-                }else{
+            let token = UserManager.shareIntance.HCUser?.token ?? "noToken"
+
+//            if url != oldValue{
+//                let hospId : String!
+//                if let i = UserManager.shareIntance.HCUser?.hospitalId {
+//                    hospId = String.init(format: "%d", i.intValue)
+//                }else{
+//                    hospId = "0"
+//                }
+//
+//                let token = UserManager.shareIntance.HCUser?.token ?? "noToken"
+//
+//                if url!.contains("?"){
+//                    if url!.contains("hospitalId"){
+//                        if url!.hasSuffix("&"){
+//                            url = url! + "token=" + token + "&navHead=aly"
+//                            requestData()
+//                        }else if url!.hasSuffix("token="){
+//                            url = url! + token + "&navHead=aly"
+//                            requestData()
+//                        }else{
+//                            url = url! + "&token=" + token + "&navHead=aly"
+//                            requestData()
+//                        }
+//                    }else{
+//                        if url!.hasSuffix("&"){
+//                            url = url! + "token=" + token + "&hospitalId=" + hospId + "&navHead=aly"
+//                            requestData()
+//                        }else if url!.hasSuffix("token="){
+//                            url = url! + token + "&hospitalId=" + hospId + "&navHead=aly"
+//                            requestData()
+//                        }else{
+//                            url = url! + "&token=" + token + "&hospitalId=" + hospId + "&navHead=aly"
+//                            requestData()
+//                        }
+//                    }
+//                }else{
                     if UserManager.shareIntance.HCUser?.token != nil {
-                        url = url! + "?token=" + token + "&hospitalId=" + hospId + "&navHead=aly"
-                    }
+                        url = url! + "?token=" + token
+//                    }
                     requestData()
-                }
+//                }
             }
             HCPrint(message: url)
         }
@@ -68,8 +69,8 @@ class WebViewController: BaseViewController {
     lazy var webView : UIWebView = {
         
         let space = AppDelegate.shareIntance.space
-        
-        let w = UIWebView.init(frame: CGRect.init(x: 0, y: space.topSpace + 44, width: SCREEN_WIDTH, height: SCREEN_HEIGHT - space.topSpace - space.bottomSpace - 44))
+        let w = UIWebView.init(frame: CGRect.init(x: 0, y: 0, width: SCREEN_WIDTH, height: SCREEN_HEIGHT - space.topSpace))
+//        let w = UIWebView.init(frame: CGRect.init(x: 0, y: space.topSpace + 44, width: SCREEN_WIDTH, height: SCREEN_HEIGHT - space.topSpace - space.bottomSpace - 44))
         w.scrollView.bounces = false
         w.delegate = self
         self.view.addSubview(w)
@@ -81,23 +82,23 @@ class WebViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let rightItem = UIBarButtonItem.init(image: UIImage.init(named: "分类"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(WebViewController.menu))
-        self.navigationItem.rightBarButtonItem = rightItem
+//        let rightItem = UIBarButtonItem.init(image: UIImage.init(named: "分类"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(WebViewController.menu))
+//        self.navigationItem.rightBarButtonItem = rightItem
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        if self.url!.contains("postTopic.html"){
-            let rightItem = UIBarButtonItem.init(title: "发表", style: .plain, target: self, action: #selector(WebViewController.publish))
-            self.navigationItem.rightBarButtonItem = rightItem
-        }
+//        if self.url!.contains("postTopic.html"){
+//            let rightItem = UIBarButtonItem.init(title: "发表", style: .plain, target: self, action: #selector(WebViewController.publish))
+//            self.navigationItem.rightBarButtonItem = rightItem
+//        }
         
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        let leftItem = UIBarButtonItem(image: UIImage(named: "返回灰"), style: .plain, target: self, action: #selector(WebViewController.popViewController))
-        self.navigationItem.leftBarButtonItem = leftItem
+//        let leftItem = UIBarButtonItem(image: UIImage(named: "返回灰"), style: .plain, target: self, action: #selector(WebViewController.popViewController))
+//        self.navigationItem.leftBarButtonItem = leftItem
     }
     
     func requestData(){

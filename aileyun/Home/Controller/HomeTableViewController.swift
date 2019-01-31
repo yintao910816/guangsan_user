@@ -26,32 +26,19 @@ class HomeTableViewController: BaseViewController {
     
     let messageBtn = badgeButton.init(frame: CGRect.init(x: 0, y: 0, width: 30, height: 30))
     
-    lazy var naviBackV : UIView = {
-        let space = AppDelegate.shareIntance.space
-        let b = UIView.init(frame: CGRect.init(x: 0, y: 0, width: SCREEN_WIDTH, height: space.topSpace + 44))
-        b.backgroundColor = UIColor.white
-        b.layer.opacity = 0.5
-        return b
-    }()
-    
-    lazy var noticeV : NoticeView = {
-        let l = NoticeView.init(frame: CGRect.init(x: 0, y: ScrollImageVHeight, width: SCREEN_WIDTH, height: NoticeViewHeight))
-        return l
-    }()
+//    lazy var naviBackV : UIView = {
+//        let space = AppDelegate.shareIntance.space
+//        let b = UIView.init(frame: CGRect.init(x: 0, y: 0, width: SCREEN_WIDTH, height: space.topSpace + 44))
+//        b.backgroundColor = UIColor.white
+//        b.layer.opacity = 0.5
+//        return b
+//    }()
     
     var shouldHideNoticeV : Bool = false {
         didSet{
             noticeV.isHidden = shouldHideNoticeV
         }
     }
-
-    lazy var containerV : UIView = {
-        let c = UIView.init(frame: CGRect.init(x: 0, y: 0, width: SCREEN_WIDTH, height: ScrollImageVHeight + FuncSizeWidth + SelectViewHeight + ViewGap * 2 + KnownledgeViewHeight))
-        c.backgroundColor = kdivisionColor
-        c.clipsToBounds = true
-        return c
-    }()
-    
     
     lazy var picScrollV : topView = {
         let t = topView.init(frame: CGRect.init(x: 0, y: 0, width: SCREEN_WIDTH, height: ScrollImageVHeight))
@@ -63,33 +50,58 @@ class HomeTableViewController: BaseViewController {
     var howManyLayer : CGFloat?
     
     lazy var functionV : HomeFunctionView = {
-        let f = HomeFunctionView.init(frame: CGRect.init(x: 0, y: ScrollImageVHeight, width: SCREEN_WIDTH, height: FuncSizeWidth))
-        f.naviVC = self.navigationController
+        let f = HomeFunctionView.init(frame: CGRect.init(x: 0,
+                                                         y: self.picScrollV.frame.maxY,
+                                                         width: SCREEN_WIDTH,
+                                                         height: FuncSizeWidth))
+        f.naviVC = (self.navigationController as? BaseNavigationController)
         return f
     }()
     
-    lazy var selectV : selectView = {
-        let s = selectView.init(frame: CGRect.init(x: 0, y: ScrollImageVHeight + NoticeViewHeight + ViewGap, width: SCREEN_WIDTH, height: SelectViewHeight))
-        return s
+    lazy var noticeV : NoticeView = {
+        let l = NoticeView.init(frame: CGRect.init(x: 0,
+                                                   y: self.functionV.frame.maxY + ViewGap,
+                                                   width: SCREEN_WIDTH,
+                                                   height: NoticeViewHeight))
+        return l
     }()
     
+//    lazy var selectV : selectView = {
+//        let s = selectView.init(frame: CGRect.init(x: 0, y: ScrollImageVHeight + NoticeViewHeight + ViewGap, width: SCREEN_WIDTH, height: SelectViewHeight))
+//        return s
+//    }()
+    
     lazy var gooodnewsV : GoodNewsView = {
-        let g = GoodNewsView.init(frame: CGRect.init(x: 0, y: ScrollImageVHeight + FuncSizeWidth + ViewGap * 2 + SelectViewHeight, width: SCREEN_WIDTH, height: GoodnewsHeight))
+        let g = GoodNewsView.init(frame: CGRect.init(x: 0,
+                                                     y: self.noticeV.frame.maxY,
+                                                     width: SCREEN_WIDTH,
+                                                     height: GoodnewsHeight))
         return g
     }()
     
-    lazy var knowledgeVC : KnowledgeViewController = {
-        let k = KnowledgeViewController()
-        k.view.frame = CGRect.init(x: 0, y: ScrollImageVHeight + FuncSizeWidth + SelectViewHeight + ViewGap * 3 + GoodnewsHeight, width: SCREEN_WIDTH, height: KnownledgeViewHeight)
-        k.naviVC = self.navigationController
-        return k
+    lazy var containerV : UIView = {
+        //        let c = UIView.init(frame: CGRect.init(x: 0, y: 0, width: SCREEN_WIDTH, height: ScrollImageVHeight + FuncSizeWidth + SelectViewHeight + ViewGap * 2 + KnownledgeViewHeight))
+        let c = UIView.init(frame: CGRect.init(x: 0, y: 0,
+                                               width: SCREEN_WIDTH,
+                                               height: self.gooodnewsV.frame.maxY))
+        c.backgroundColor = kdivisionColor
+        c.clipsToBounds = true
+        return c
     }()
+    
+//    lazy var knowledgeVC : KnowledgeViewController = {
+//        let k = KnowledgeViewController()
+//        k.view.frame = CGRect.init(x: 0, y: ScrollImageVHeight + FuncSizeWidth + SelectViewHeight + ViewGap * 3 + GoodnewsHeight, width: SCREEN_WIDTH, height: KnownledgeViewHeight)
+//        k.naviVC = self.navigationController
+//        return k
+//    }()
     
     let reuseIdentifier = "reuseIdentifier"
     
     lazy var tableV : UITableView = {
         let space = AppDelegate.shareIntance.space
         let t = UITableView.init(frame: CGRect.init(x: 0, y: 0, width: SCREEN_WIDTH, height: SCREEN_HEIGHT - space.bottomSpace - 48))
+        t.separatorStyle = .none
         t.rowHeight = UITableViewAutomaticDimension
         t.estimatedRowHeight = 300
         t.dataSource = self
@@ -104,18 +116,18 @@ class HomeTableViewController: BaseViewController {
         }
     }
     
-    lazy var moreInformationV : UIView = {
-        let m = UIView.init(frame: CGRect.init(x: 0, y: 0, width: SCREEN_WIDTH, height: 40))
-        m.layer.borderWidth = 1
-        m.layer.borderColor = kdivisionColor.cgColor
-        let l = UILabel.init(frame: CGRect.init(x: 0, y: 0, width: SCREEN_WIDTH, height: 40))
-        l.textAlignment = .center
-        l.textColor = kLightTextColor
-        l.font = UIFont.init(name: kReguleFont, size: kTextSize - 2)
-        l.text = "更多内容，请点击圈子"
-        m.addSubview(l)
-        return m
-    }()
+//    lazy var moreInformationV : UIView = {
+//        let m = UIView.init(frame: CGRect.init(x: 0, y: 0, width: SCREEN_WIDTH, height: 40))
+//        m.layer.borderWidth = 1
+//        m.layer.borderColor = kdivisionColor.cgColor
+//        let l = UILabel.init(frame: CGRect.init(x: 0, y: 0, width: SCREEN_WIDTH, height: 40))
+//        l.textAlignment = .center
+//        l.textColor = kLightTextColor
+//        l.font = UIFont.init(name: kReguleFont, size: kTextSize - 2)
+//        l.text = "更多内容，请点击圈子"
+//        m.addSubview(l)
+//        return m
+//    }()
 
     
     override var preferredStatusBarStyle: UIStatusBarStyle{
@@ -195,25 +207,25 @@ class HomeTableViewController: BaseViewController {
         containerV.addSubview(picScrollV)
         containerV.addSubview(functionV)
         containerV.addSubview(noticeV)
-        containerV.addSubview(selectV)
+//        containerV.addSubview(selectV)
         containerV.addSubview(gooodnewsV)
-        containerV.addSubview(knowledgeVC.view)
+//        containerV.addSubview(knowledgeVC.view)
         
         tableV.tableHeaderView = containerV
         
 //        if UserManager.shareIntance.forumSwitch == false{
 //            tableV.tableFooterView = UIView()
 //        }else{
-            tableV.tableFooterView = moreInformationV
+//            tableV.tableFooterView = moreInformationV
 //        }
         
         //导航栏底色
 //        self.view.insertSubview(naviBackV, aboveSubview: tableV)
 
         //诊疗流程
-        selectV.guideBtn.addTarget(self, action: #selector(HomeTableViewController.treatFlow), for: UIControlEvents.touchUpInside)
-        //暂时去之前的论坛
-        selectV.classroomBtn.addTarget(self, action: #selector(HomeTableViewController.groupDiscuss), for: UIControlEvents.touchUpInside)
+//        selectV.guideBtn.addTarget(self, action: #selector(HomeTableViewController.treatFlow), for: UIControlEvents.touchUpInside)
+//        //暂时去之前的论坛
+//        selectV.classroomBtn.addTarget(self, action: #selector(HomeTableViewController.groupDiscuss), for: UIControlEvents.touchUpInside)
         
         let headRefresher = MJRefreshNormalHeader.init(refreshingTarget: self, refreshingAction: #selector(HomeTableViewController.requestData))
         headRefresher?.setTitle("下拉刷新数据", for: .idle)
@@ -265,22 +277,22 @@ class HomeTableViewController: BaseViewController {
     }
     
     func noticeDetail(){
-        SVProgressHUD.show()
-        if noticeV.modelArr![noticeV.row].typeCom == "dynamic" {
-            let notIdS = String.init(format: "%d", (noticeV.modelArr![noticeV.row].id!.intValue))
-            HttpRequestManager.shareIntance.HC_getH5URL(keyCode: "NOTICE_DETAIL_URL", callback: { [weak self](success, urlS) in
-                SVProgressHUD.dismiss()
-                if success == true{
-                    let webVC = WebViewController()
-                    webVC.url = urlS + "?noticeId=" + notIdS
-                    self?.navigationController?.pushViewController(webVC, animated: true)
-                }else{
-                    HCShowError(info: urlS)
-                }
-            })
-        }else{
-            messageAction()
-        }
+//        SVProgressHUD.show()
+//        if noticeV.modelArr![noticeV.row].typeCom == "dynamic" {
+//            let notIdS = String.init(format: "%d", (noticeV.modelArr![noticeV.row].id!.intValue))
+//            HttpRequestManager.shareIntance.HC_getH5URL(keyCode: "NOTICE_DETAIL_URL", callback: { [weak self](success, urlS) in
+//                SVProgressHUD.dismiss()
+//                if success == true{
+//                    let webVC = WebViewController()
+//                    webVC.url = urlS + "?noticeId=" + notIdS
+//                    self?.navigationController?.pushViewController(webVC, animated: true)
+//                }else{
+//                    HCShowError(info: urlS)
+//                }
+//            })
+//        }else{
+//            messageAction()
+//        }
     }
     
     func qrcodeVC(){
@@ -292,35 +304,45 @@ class HomeTableViewController: BaseViewController {
             return
         }
         let headV = tableV.tableHeaderView
-        functionV.frame = CGRect.init(x: 0, y: ScrollImageVHeight, width: SCREEN_WIDTH, height: FuncSizeWidth * layer)
-        noticeV.frame = CGRect.init(x: 0, y: ScrollImageVHeight + FuncSizeWidth * layer + ViewGap, width: SCREEN_WIDTH, height: NoticeViewHeight)
-        if shouldHideNoticeV == false{
-            headV?.frame = CGRect.init(x: 0, y: 0, width: SCREEN_WIDTH, height: ScrollImageVHeight + FuncSizeWidth * layer + SelectViewHeight + GoodnewsHeight + NoticeViewHeight + ViewGap * 4 + KnownledgeViewHeight)
-            selectV.snp.updateConstraints({ (make) in
-                make.left.right.equalTo(noticeV)
-                make.top.equalTo(noticeV.snp.bottom).offset(ViewGap)
-                make.height.equalTo(SelectViewHeight)
-            })
-        }else{
-            headV?.frame = CGRect.init(x: 0, y: 0, width: SCREEN_WIDTH, height: ScrollImageVHeight + FuncSizeWidth * layer + SelectViewHeight + GoodnewsHeight + ViewGap * 3 + KnownledgeViewHeight)
-            selectV.snp.updateConstraints({ (make) in
-                make.left.right.equalTo(functionV)
-                make.top.equalTo(functionV.snp.bottom).offset(ViewGap)
-                make.height.equalTo(SelectViewHeight)
-            })
-        }
+        
+        functionV.frame = CGRect.init(x: 0, y: picScrollV.frame.maxY, width: SCREEN_WIDTH, height: FuncSizeWidth * layer)
+        
+        noticeV.frame = CGRect.init(x: 0, y: functionV.frame.maxY + ViewGap, width: SCREEN_WIDTH, height: NoticeViewHeight)
 
-        gooodnewsV.snp.updateConstraints ({ (make) in
-            make.left.right.equalTo(functionV)
-            make.top.equalTo(selectV.snp.bottom).offset(ViewGap)
-            make.height.equalTo(GoodnewsHeight)
-        })
+        gooodnewsV.frame = CGRect.init(x: 0, y: self.noticeV.frame.maxY + ViewGap,
+                                       width: SCREEN_WIDTH,
+                                       height: GoodnewsHeight)
+        
+        containerV.frame = CGRect.init(x: 0, y: 0, width: SCREEN_WIDTH, height: self.gooodnewsV.frame.maxY)
 
-        knowledgeVC.view.snp.updateConstraints { (make) in
-            make.left.right.equalTo(functionV)
-            make.top.equalTo(gooodnewsV.snp.bottom).offset(ViewGap)
-            make.height.equalTo(KnownledgeViewHeight)
-        }
+//        noticeV.frame = CGRect.init(x: 0, y: ScrollImageVHeight + FuncSizeWidth * layer + ViewGap, width: SCREEN_WIDTH, height: NoticeViewHeight)
+//        if shouldHideNoticeV == false{
+//            headV?.frame = CGRect.init(x: 0, y: 0, width: SCREEN_WIDTH, height: ScrollImageVHeight + FuncSizeWidth * layer + SelectViewHeight + GoodnewsHeight + NoticeViewHeight + ViewGap * 4 + KnownledgeViewHeight)
+//            selectV.snp.updateConstraints({ (make) in
+//                make.left.right.equalTo(noticeV)
+//                make.top.equalTo(noticeV.snp.bottom).offset(ViewGap)
+//                make.height.equalTo(SelectViewHeight)
+//            })
+//        }else{
+//            headV?.frame = CGRect.init(x: 0, y: 0, width: SCREEN_WIDTH, height: ScrollImageVHeight + FuncSizeWidth * layer + SelectViewHeight + GoodnewsHeight + ViewGap * 3 + KnownledgeViewHeight)
+//            selectV.snp.updateConstraints({ (make) in
+//                make.left.right.equalTo(functionV)
+//                make.top.equalTo(functionV.snp.bottom).offset(ViewGap)
+//                make.height.equalTo(SelectViewHeight)
+//            })
+//        }
+
+//        gooodnewsV.snp.updateConstraints ({ (make) in
+//            make.left.right.equalTo(functionV)
+//            make.top.equalTo(selectV.snp.bottom).offset(ViewGap)
+//            make.height.equalTo(GoodnewsHeight)
+//        })
+//
+//        knowledgeVC.view.snp.updateConstraints { (make) in
+//            make.left.right.equalTo(functionV)
+//            make.top.equalTo(gooodnewsV.snp.bottom).offset(ViewGap)
+//            make.height.equalTo(KnownledgeViewHeight)
+//        }
 
         tableV.tableHeaderView = headV
     }
@@ -366,17 +388,17 @@ class HomeTableViewController: BaseViewController {
             group.leave()
         }
         
-        group.enter()
-        // 今日知识
-        let hospitalId = UserManager.shareIntance.HCUserInfo?.hospitalId?.intValue ?? 0
-        HttpRequestManager.shareIntance.HC_knowledgeList(hospitalId: hospitalId) { [weak self](success, arr) in
-            if success == true {
-                self?.knowledgeVC.modelArr = arr
-            }else{
-                HCShowError(info: "网络错误")
-            }
-            group.leave()
-        }
+//        group.enter()
+//        // 今日知识
+//        let hospitalId = UserManager.shareIntance.HCUserInfo?.hospitalId?.intValue ?? 0
+//        HttpRequestManager.shareIntance.HC_knowledgeList(hospitalId: hospitalId) { [weak self](success, arr) in
+//            if success == true {
+//                self?.knowledgeVC.modelArr = arr
+//            }else{
+//                HCShowError(info: "网络错误")
+//            }
+//            group.leave()
+//        }
         
 //        group.enter()
         // H5地址
@@ -401,21 +423,24 @@ class HomeTableViewController: BaseViewController {
 //        }
         
         //公告
-//        group.enter()
-//        HttpRequestManager.shareIntance.HC_notice { [weak self](arr, s) in
-//            if let modelArr = arr{
-//                self?.noticeV.modelArr = modelArr
-//
-//                self?.dealWithNote(arr: modelArr)
-//
-//                //添加点击事件
-//                let tapG = UITapGestureRecognizer.init(target: self, action: #selector(HomeTableViewController.noticeDetail))
-//                self?.noticeV.addGestureRecognizer(tapG)
-//            }else{
+        group.enter()
+        HttpRequestManager.shareIntance.HC_notice { [weak self](arr, s) in
+            if let modelArr = arr{
+                if modelArr.count > 0 {
+                    self?.noticeV.modelArr = modelArr
+                    
+                    self?.dealWithNote(arr: modelArr)
+                    
+                    //添加点击事件
+                    let tapG = UITapGestureRecognizer.init(target: self, action: #selector(HomeTableViewController.noticeDetail))
+                    self?.noticeV.addGestureRecognizer(tapG)
+                }
+            }
+//            else{
 //                self?.shouldHideNoticeV = true
 //            }
-//            group.leave()
-//        }
+            group.leave()
+        }
         
 //        group.enter()
 //        HttpRequestManager.shareIntance.HC_goodnews { [weak self](modelArr, msg) in
@@ -439,38 +464,38 @@ class HomeTableViewController: BaseViewController {
     
     func dealWithNote(arr : [NoticeHomeVModel]){
         
-        var allow = true
-        
-        let t = UserDefaults.standard.value(forKey: kpopAlertTime) as? String
-        if let t = t{
-            let todayS = Date.init().converteYYYYMMdd()
-            if t == todayS{
-                allow = false
-            }
-        }
-        
-        guard allow == true else{
-            HCPrint(message: "今天的名额用完了！")
-            return
-        }
-        
-        for i in arr {
-            if let flag = i.popFlag{
-                if flag.intValue == 1{
-                    let alertVC = AlertViewController()
-                    alertVC.titleL.text = i.title
-                    alertVC.contentL.text = i.content
-                    alertVC.modalPresentationStyle = .custom
-            
-                    UIApplication.shared.keyWindow?.rootViewController?.present(alertVC, animated: false, completion: nil)
-                    
-                    let todayS = Date.init().converteYYYYMMdd()
-                    UserDefaults.standard.set(todayS, forKey: kpopAlertTime)
-                    
-                    break
-                }
-            }
-        }
+//        var allow = true
+//        
+//        let t = UserDefaults.standard.value(forKey: kpopAlertTime) as? String
+//        if let t = t{
+//            let todayS = Date.init().converteYYYYMMdd()
+//            if t == todayS{
+//                allow = false
+//            }
+//        }
+//        
+//        guard allow == true else{
+//            HCPrint(message: "今天的名额用完了！")
+//            return
+//        }
+//        
+//        for i in arr {
+//            if let flag = i.popFlag{
+//                if flag.intValue == 1{
+//                    let alertVC = AlertViewController()
+//                    alertVC.titleL.text = i.title
+//                    alertVC.contentL.text = i.content
+//                    alertVC.modalPresentationStyle = .custom
+//            
+//                    UIApplication.shared.keyWindow?.rootViewController?.present(alertVC, animated: false, completion: nil)
+//                    
+//                    let todayS = Date.init().converteYYYYMMdd()
+//                    UserDefaults.standard.set(todayS, forKey: kpopAlertTime)
+//                    
+//                    break
+//                }
+//            }
+//        }
     }
     
 }
@@ -541,68 +566,68 @@ extension HomeTableViewController : UITableViewDataSource, UITableViewDelegate {
         return cell
     }
     
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//        guard UserManager.shareIntance.forumSwitch == true else{
-//            return UIView()
+//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+////        guard UserManager.shareIntance.forumSwitch == true else{
+////            return UIView()
+////        }
+//
+//        let contV = UIView.init(frame: CGRect.init(x: 0, y: 0, width: SCREEN_WIDTH, height: 50))
+//        contV.backgroundColor = UIColor.white
+//
+//        let diviV = UIView.init(frame: CGRect.init(x: 0, y: 0, width: SCREEN_WIDTH, height: 3))
+//        diviV.backgroundColor = kdivisionColor
+//        contV.addSubview(diviV)
+//
+//        let knowledgeIV = UIImageView()
+//        knowledgeIV.image = UIImage.init(named: "标题")
+//        knowledgeIV.contentMode = UIViewContentMode.scaleAspectFit
+//        contV.addSubview(knowledgeIV)
+//        knowledgeIV.snp.updateConstraints { (make) in
+//            make.left.equalTo(contV).offset(20)
+//            make.top.equalTo(contV).offset(20)
+//            make.width.height.equalTo(20)
 //        }
-        
-        let contV = UIView.init(frame: CGRect.init(x: 0, y: 0, width: SCREEN_WIDTH, height: 50))
-        contV.backgroundColor = UIColor.white
-        
-        let diviV = UIView.init(frame: CGRect.init(x: 0, y: 0, width: SCREEN_WIDTH, height: 3))
-        diviV.backgroundColor = kdivisionColor
-        contV.addSubview(diviV)
-        
-        let knowledgeIV = UIImageView()
-        knowledgeIV.image = UIImage.init(named: "标题")
-        knowledgeIV.contentMode = UIViewContentMode.scaleAspectFit
-        contV.addSubview(knowledgeIV)
-        knowledgeIV.snp.updateConstraints { (make) in
-            make.left.equalTo(contV).offset(20)
-            make.top.equalTo(contV).offset(20)
-            make.width.height.equalTo(20)
-        }
-        
-        let knowledgeL = UILabel()
-        knowledgeL.text = "好孕圈子"
-        knowledgeL.font = UIFont.init(name: kReguleFont, size: kTextSize)
-        knowledgeL.textColor = kTextColor
-        contV.addSubview(knowledgeL)
-        knowledgeL.snp.updateConstraints { (make) in
-            make.left.equalTo(knowledgeIV.snp.right).offset(4)
-            make.centerY.equalTo(knowledgeIV)
-        }
-        
-        let imgV = UIImageView()
-        imgV.image = UIImage.init(named: "箭头")
-        imgV.contentMode = UIViewContentMode.right
-        contV.addSubview(imgV)
-        imgV.snp.updateConstraints { (make) in
-            make.right.equalTo(contV).offset(-20)
-            make.centerY.equalTo(knowledgeIV)
-            make.width.height.equalTo(20)
-        }
-        
-        let divisionV = UIView()
-        divisionV.backgroundColor = kdivisionColor
-        contV.addSubview(divisionV)
-        divisionV.snp.updateConstraints { (make) in
-            make.left.right.bottom.equalTo(contV)
-            make.height.equalTo(1)
-        }
-        
-        let tapG = UITapGestureRecognizer.init(target: self, action: #selector(HomeTableViewController.gotoGroup))
-        contV.addGestureRecognizer(tapG)
-        
-        return contV
-    }
+//
+//        let knowledgeL = UILabel()
+//        knowledgeL.text = "好孕圈子"
+//        knowledgeL.font = UIFont.init(name: kReguleFont, size: kTextSize)
+//        knowledgeL.textColor = kTextColor
+//        contV.addSubview(knowledgeL)
+//        knowledgeL.snp.updateConstraints { (make) in
+//            make.left.equalTo(knowledgeIV.snp.right).offset(4)
+//            make.centerY.equalTo(knowledgeIV)
+//        }
+//
+//        let imgV = UIImageView()
+//        imgV.image = UIImage.init(named: "箭头")
+//        imgV.contentMode = UIViewContentMode.right
+//        contV.addSubview(imgV)
+//        imgV.snp.updateConstraints { (make) in
+//            make.right.equalTo(contV).offset(-20)
+//            make.centerY.equalTo(knowledgeIV)
+//            make.width.height.equalTo(20)
+//        }
+//
+//        let divisionV = UIView()
+//        divisionV.backgroundColor = kdivisionColor
+//        contV.addSubview(divisionV)
+//        divisionV.snp.updateConstraints { (make) in
+//            make.left.right.bottom.equalTo(contV)
+//            make.height.equalTo(1)
+//        }
+//
+//        let tapG = UITapGestureRecognizer.init(target: self, action: #selector(HomeTableViewController.gotoGroup))
+//        contV.addGestureRecognizer(tapG)
+//
+//        return contV
+//    }
     
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-//        guard UserManager.shareIntance.forumSwitch == true else{
-//            return 0
-//        }
-        return 50
-    }
+//    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+////        guard UserManager.shareIntance.forumSwitch == true else{
+////            return 0
+////        }
+//        return 50
+//    }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let id = circleArr?[indexPath.row].id {

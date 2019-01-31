@@ -1092,22 +1092,20 @@ class HttpRequestManager {
     
     
     func HC_notice(callback : @escaping ([NoticeHomeVModel]?, String)->()){  //pageNum=1&pageSize=10
-        let dic = NSDictionary.init(dictionary: ["pageNum" : 1, "pageSize" : 10])
+        let dic = NSDictionary.init(dictionary: ["type": "new", "pageNum": 1, "pageSize": 10])
         HttpClient.shareIntance.POST(HC_NOTICE, parameters: dic) { (result, ccb) in
 //            HCPrint(message: result)
             if ccb.success(){
-                let dic = ccb.data as! [String : Any]
-                let arr = dic["list"] as! NSArray
-                if arr.count > 0{
-                    var strArr = [NoticeHomeVModel]()
-                    for i in arr{
-                        let j = i as! [String : Any]
-                        let m = NoticeHomeVModel.init(j)
+                var strArr = [NoticeHomeVModel]()
+
+                if let dic = ccb.data as? [String : Any], let data = dic["data"] as? [[String: Any]]{
+                    for item in data{
+                        let m = NoticeHomeVModel.init(HttpRequestManager.shareIntance.dealNull(data: item))
                         strArr.append(m)
                     }
                     callback(strArr, "获取成功")
                 }else{
-                    callback(nil, "没有数据")
+                    callback(strArr, "没有数据")
                 }
             }else{
                 callback(nil, "请求失败")

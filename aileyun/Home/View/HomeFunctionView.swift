@@ -11,7 +11,7 @@ import SVProgressHUD
 
 class HomeFunctionView: UIView {
     
-    weak var naviVC : UINavigationController?
+    weak var naviVC : BaseNavigationController?
     
     var modelArr : [HomeFunctionModel]?{
         didSet{
@@ -60,9 +60,10 @@ class HomeFunctionView: UIView {
     
     func actionWithModel(model : HomeFunctionModel){
         
-        if let functionUrl = model.functionUrl, let url = functionUrl.components(separatedBy: "#").first {
+        if let functionUrl = model.functionUrl {
             let webVC = WebViewController()
-            webVC.url = url
+            webVC.title = model.name
+            webVC.url = functionUrl + "&unitId=\(model.unitId.stringValue)"
             naviVC?.pushViewController(webVC, animated: true)
 
 //            if url.contains("reservation"){

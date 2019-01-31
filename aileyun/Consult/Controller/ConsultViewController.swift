@@ -9,9 +9,15 @@
 import UIKit
 import SVProgressHUD
 import MJRefresh
+import SnapKit
 
 class ConsultViewController: BaseViewController, UITableViewDelegate, UITableViewDataSource {
 
+    lazy var webView: UIWebView = {
+        let web = UIWebView()
+        return web
+    }()
+    
     lazy var tableView : UITableView = {
         let space = AppDelegate.shareIntance.space
         let t = UITableView.init(frame: CGRect.init(x: 0, y: 0, width: SCREEN_WIDTH, height: SCREEN_HEIGHT - space.topSpace - space.bottomSpace - 92))
@@ -44,14 +50,18 @@ class ConsultViewController: BaseViewController, UITableViewDelegate, UITableVie
         
         setupNavibar()
         
-        self.tableView.register(ConsultViewCell.self, forCellReuseIdentifier: reuseIdentifier)
+        view.addSubview(webView)
         
-        tableView.contentInset = UIEdgeInsets.init(top: 0, left: 0, bottom: 44, right: 0)
+        webView.snp.makeConstraints{ $0.edges.equalTo(UIEdgeInsets.zero) }
         
-        let footV = MJRefreshAutoNormalFooter(refreshingTarget: self, refreshingAction: #selector(ConsultViewController.requestData))
-        tableView.mj_footer = footV
-        
-        requestData()
+//        self.tableView.register(ConsultViewCell.self, forCellReuseIdentifier: reuseIdentifier)
+//
+//        tableView.contentInset = UIEdgeInsets.init(top: 0, left: 0, bottom: 44, right: 0)
+//
+//        let footV = MJRefreshAutoNormalFooter(refreshingTarget: self, refreshingAction: #selector(ConsultViewController.requestData))
+//        tableView.mj_footer = footV
+//
+//        requestData()
     }
 
     func setupNavibar(){
@@ -89,6 +99,11 @@ class ConsultViewController: BaseViewController, UITableViewDelegate, UITableVie
         super.didReceiveMemoryWarning()
     }
 
+    func testRequest() {
+        HttpRequestManager.shareIntance.HC_getH5URL(keyCode: "underDev") { (success, data) in
+            
+        }
+    }
 
     func requestData(){
         guard hasNext == true else{

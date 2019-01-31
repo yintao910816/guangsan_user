@@ -44,10 +44,14 @@ class NoticeView: UIView {
     
     var row = 0 {
         didSet{
-            if row >= (modelArr?.count)! {
-                row = 0
+            guard let _modelArr = modelArr else {
+                return
             }
-            contentT.text = modelArr![row].title
+            if row >= _modelArr.count {
+                row = 0
+            }else {
+                contentT.text = _modelArr[row].title
+            }
         }
     }
     
