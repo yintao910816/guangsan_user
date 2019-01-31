@@ -71,13 +71,13 @@ extension UserInfoViewController : UITableViewDataSource, UITableViewDelegate{
         
         let row = indexPath.row
         if row == 0 {
-            if let imgS = userInfoM?.imgUrl{
+            if let imgS = userInfoM?.headPath{
                 cell.headImgV.HC_setImageFromURL(urlS: imgS, placeHolder: "默认头像")
             }else{
                 cell.headImgV.image = UIImage.init(named: "默认头像")
             }
         }else if row == 1{
-            cell.contentL.text = userInfoM?.nickname
+            cell.contentL.text = userInfoM?.name
         }else if row == 2{
             if userInfoM?.sex?.intValue == 1 {
                 cell.contentL.text = "男"
@@ -87,7 +87,7 @@ extension UserInfoViewController : UITableViewDataSource, UITableViewDelegate{
         }else if row == 3{
             cell.contentL.text = userInfoM?.birthday
         }else if row == 4{
-            cell.contentL.text = userInfoM?.userSign
+            cell.contentL.text = userInfoM?.synopsis
         }
         
         return cell

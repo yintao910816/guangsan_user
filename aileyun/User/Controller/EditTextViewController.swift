@@ -24,7 +24,7 @@ class EditTextViewController: BaseViewController {
             HCPrint(message: modifyType)
             switch modifyType {
             case .HeadImg:
-                if let imgS = UserManager.shareIntance.HCUserInfo?.imgUrl {
+                if let imgS = UserManager.shareIntance.HCUserInfo?.headPath {
                     headImgV.HC_setImageFromURL(urlS: imgS, placeHolder: "默认头像")
                 }else{
                     headImgV.image = UIImage.init(named: "默认头像")
@@ -186,27 +186,27 @@ class EditTextViewController: BaseViewController {
         
         var dic : NSDictionary!
         
-        let nickName = userInfoM?.nickname ?? ""
+        let nickName = userInfoM?.name ?? ""
         let sex = userInfoM?.sex?.intValue ?? 0
-        let imgUrl = userInfoM?.imgUrl ?? ""
-        let userSign = userInfoM?.userSign ?? ""
+        let imgUrl = userInfoM?.headPath ?? ""
+        let userSign = userInfoM?.synopsis ?? ""
         let birthDay = userInfoM?.birthday ?? ""
         
         switch modifyType {
         case .HeadImg:
             updateUserImg(patientId: patientId, nickName: nickName, sex: sex, userSign: userSign, birthDay: birthDay)
         case .Nickname:
-            dic = NSDictionary.init(dictionary: ["patientId" : patientId, "nickName" : inputF.text!, "sex" : sex, "imgUrl" : imgUrl, "userSign" : userSign, "birthDay" : birthDay])
+            dic = NSDictionary.init(dictionary: ["patientId" : patientId, "name" : inputF.text!, "sex" : sex, "headPath" : imgUrl, "synopsis" : userSign, "birthday" : birthDay])
             updateUserInfo(dic: dic)
         case .Sex:
             let s = inputF.text == "女" ? "0" : "1"
-            dic = NSDictionary.init(dictionary: ["patientId" : patientId, "nickName" : nickName, "sex" : s, "imgUrl" : imgUrl, "userSign" : userSign, "birthDay" : birthDay])
+            dic = NSDictionary.init(dictionary: ["patientId" : patientId, "name" : nickName, "sex" : s, "headPath" : imgUrl, "synopsis" : userSign, "birthday" : birthDay])
             updateUserInfo(dic: dic)
         case .Sign:
-            dic = NSDictionary.init(dictionary: ["patientId" : patientId, "nickName" : nickName, "sex" : sex, "imgUrl" : imgUrl, "userSign" : inputF.text!, "birthDay" : birthDay])
+            dic = NSDictionary.init(dictionary: ["patientId" : patientId, "name" : nickName, "sex" : sex, "headPath" : imgUrl, "synopsis" : inputF.text!, "birthday" : birthDay])
             updateUserInfo(dic: dic)
         case .Birthday:
-            dic = NSDictionary.init(dictionary: ["patientId" : patientId, "nickName" : nickName, "sex" : sex, "imgUrl" : imgUrl, "userSign" : userSign, "birthDay" : inputF.text!])
+            dic = NSDictionary.init(dictionary: ["patientId" : patientId, "name" : nickName, "sex" : sex, "headPath" : imgUrl, "synopsis" : userSign, "birthday" : inputF.text!])
             updateUserInfo(dic: dic)
         default:
             HCPrint(message: "nothing")

@@ -24,8 +24,11 @@ class HttpClient {
         
         mg.requestSerializer.setValue("36", forHTTPHeaderField: "unitId")
         mg.requestSerializer.setValue("application/json", forHTTPHeaderField: "Content-Type")
-//        mg.requestSerializer.setValue("REQ3QzQxREI0Qzc5REY3MQ==", forHTTPHeaderField: "token")
-
+        
+        if let userInfo = UserDefaults.standard.object(forKey: kUserDic) as? [String: Any],
+            let token = userInfo["token"] as? String {
+            mg.requestSerializer.setValue(token, forHTTPHeaderField: "token")
+        }
         return mg
     }()
     

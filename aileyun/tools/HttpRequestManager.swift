@@ -345,12 +345,16 @@ class HttpRequestManager {
     
     //用户信息
     func HC_userInfo(callback : @escaping (Bool, String)->()){
-        HttpClient.shareIntance.GET(HC_USERINFO, parameters: nil) { (result, ccb) in
+        HttpClient.shareIntance.POST(HC_USERINFO, parameters: nil) { (result, ccb) in
             if ccb.success(){
-                let dic = ccb.data as? [String : Any]
-                if let dic = dic {
-                    UserDefaults.standard.set(dic, forKey: kUserInfoDic)
-                    let infoModel = HCUserInfoModel.init(dic)
+                let dic = result as? [String : Any]
+                if let dic = dic, var userInfo = dic["data"] as? [String: Any] {
+                    // 防止报错添加，服务器未返回
+                    userInfo["hospitalId"] = 0
+                    
+                    userInfo = HttpRequestManager.shareIntance.dealNull(data: userInfo)
+                    UserDefaults.standard.set(userInfo, forKey: kUserInfoDic)
+                    let infoModel = HCUserInfoModel.init(userInfo)
                     UserManager.shareIntance.HCUserInfo = infoModel
                 }
                 
@@ -521,7 +525,7 @@ class HttpRequestManager {
     
     //修改用户信息
     func HC_updateUserInfo(dic : NSDictionary, callback : @escaping (Bool, String)->()){
-        HttpClient.shareIntance.GET(HC_UPDATE_USERINFO, parameters: dic) { (result, ccb) in
+        HttpClient.shareIntance.POST(HC_UPDATE_USERINFO, parameters: dic) { (result, ccb) in
             HCPrint(message: result)
             if ccb.success() {
                 callback(true, "")
@@ -944,25 +948,25 @@ class HttpRequestManager {
     //获取 BBSToken 
     func HC_getBBSToken(callback : @escaping (Bool, String)->()){
         
-        let dic = NSMutableDictionary.init()
-        dic["token"] = UserManager.shareIntance.HCUser?.token
-        
-        let bbsTokenUrl = UserManager.shareIntance.HCUserInfo?.getBbsTokenUrl
-        
-        guard bbsTokenUrl != nil else{
-            callback(false, "没有BBSToken地址")
-            return
-        }
-        
-        HttpClient.shareIntance.GET_BBS_token(bbsTokenUrl!, parameters: dic) { (success, bbsToken) in
-            if success == true{
-                UserDefaults.standard.set(bbsToken, forKey: kBBSToken)
-                UserManager.shareIntance.HCUserInfo?.BBSToken = bbsToken
-                callback(true, "获取BBSToken成功")
-            }else{
-                callback(false, "获取BBSToken失败")
-            }
-        }
+//        let dic = NSMutableDictionary.init()
+//        dic["token"] = UserManager.shareIntance.HCUser?.token
+//
+//        let bbsTokenUrl = UserManager.shareIntance.HCUserInfo?.getBbsTokenUrl
+//
+//        guard bbsTokenUrl != nil else{
+//            callback(false, "没有BBSToken地址")
+//            return
+//        }
+//
+//        HttpClient.shareIntance.GET_BBS_token(bbsTokenUrl!, parameters: dic) { (success, bbsToken) in
+//            if success == true{
+//                UserDefaults.standard.set(bbsToken, forKey: kBBSToken)
+//                UserManager.shareIntance.HCUserInfo?.BBSToken = bbsToken
+//                callback(true, "获取BBSToken成功")
+//            }else{
+//                callback(false, "获取BBSToken失败")
+//            }
+//        }
     }
     
     
@@ -988,19 +992,19 @@ class HttpRequestManager {
                     return
                 }
                 
-                let tempDic = tempObj as! [String : Any]
-                
-                let bbsFgiUrl = tempDic["bbsFgiUrl"] as! String
-                UserDefaults.standard.set(bbsFgiUrl, forKey: kbbsFgiUrl)
-                UserManager.shareIntance.HCUserInfo?.bbsFgiUrl = bbsFgiUrl
-                
-                let getBbsTokenUrl = tempDic["getBbsTokenUrl"] as! String
-                UserDefaults.standard.set(getBbsTokenUrl, forKey: kgetBbsTokenUrl)
-                UserManager.shareIntance.HCUserInfo?.getBbsTokenUrl = getBbsTokenUrl
-                
-                let findLastestTopics = tempDic["findLastestTopics"] as! String
-                UserDefaults.standard.set(findLastestTopics, forKey: kfindLastestTopics)
-                UserManager.shareIntance.HCUserInfo?.findLastestTopics = findLastestTopics
+//                let tempDic = tempObj as! [String : Any]
+//
+//                let bbsFgiUrl = tempDic["bbsFgiUrl"] as! String
+//                UserDefaults.standard.set(bbsFgiUrl, forKey: kbbsFgiUrl)
+//                UserManager.shareIntance.HCUserInfo?.bbsFgiUrl = bbsFgiUrl
+//
+//                let getBbsTokenUrl = tempDic["getBbsTokenUrl"] as! String
+//                UserDefaults.standard.set(getBbsTokenUrl, forKey: kgetBbsTokenUrl)
+//                UserManager.shareIntance.HCUserInfo?.getBbsTokenUrl = getBbsTokenUrl
+//
+//                let findLastestTopics = tempDic["findLastestTopics"] as! String
+//                UserDefaults.standard.set(findLastestTopics, forKey: kfindLastestTopics)
+//                UserManager.shareIntance.HCUserInfo?.findLastestTopics = findLastestTopics
                 
                 callback(true, "成功")
             }else{
@@ -1010,25 +1014,25 @@ class HttpRequestManager {
     }
     
     func HC_findLastestTopics(callback : @escaping (Bool, [HCCircleModel]?, String)->()){
-        if let findLastestTopics = UserManager.shareIntance.HCUserInfo?.findLastestTopics {
-            //鼓楼
-//            let dic = NSDictionary.init(dictionary: ["hospitalId" : 19])
-            HttpClient.shareIntance.POST(findLastestTopics, parameters: nil, callBack: { (result, ccb) in
-                if ccb.success() {
-                    let dicArr = ccb.data as! [[String : Any]]
-                    var modelArr = [HCCircleModel]()
-                    for dic in dicArr {
-                        let model = HCCircleModel.init(dic)
-                        modelArr.append(model)
-                    }
-                    callback(true, modelArr, ccb.msg)
-                }else{
-                    callback(false, nil, ccb.msg)
-                }
-            })
-        }else{
-            callback(false, nil, "没有findLastestTopics地址")
-        }
+//        if let findLastestTopics = UserManager.shareIntance.HCUserInfo?.findLastestTopics {
+//            //鼓楼
+////            let dic = NSDictionary.init(dictionary: ["hospitalId" : 19])
+//            HttpClient.shareIntance.POST(findLastestTopics, parameters: nil, callBack: { (result, ccb) in
+//                if ccb.success() {
+//                    let dicArr = ccb.data as! [[String : Any]]
+//                    var modelArr = [HCCircleModel]()
+//                    for dic in dicArr {
+//                        let model = HCCircleModel.init(dic)
+//                        modelArr.append(model)
+//                    }
+//                    callback(true, modelArr, ccb.msg)
+//                }else{
+//                    callback(false, nil, ccb.msg)
+//                }
+//            })
+//        }else{
+//            callback(false, nil, "没有findLastestTopics地址")
+//        }
     }
     
     // 获取Ht5地址  keyCode

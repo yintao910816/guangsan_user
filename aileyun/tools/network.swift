@@ -124,7 +124,7 @@ let HC_VALIDATECODE = HC_HOST_URL + "api/patient/validateCode"
 //校验验证码 get
 let HC_VALIDATE = HC_HOST_URL + "api/patient/validate"
 //用户信息 get
-let HC_USERINFO = HC_HOST_URL + "api/patient/findInfo"
+let HC_USERINFO = HC_HOST_URL + "api/member/selectInfo"
 //banner
 let HC_BANNER = HC_HOST_URL + "api/index/selectBanner"
 //首页功能导航
@@ -140,7 +140,7 @@ let HC_BIND_CARD = HC_HOST_URL + "api/patient/hospital/bindCard"
 //解绑生殖中心
 let HC_UNBIND = HC_HOST_URL + "api/patient/hospital/unBindCard"
 //更新用户信息
-let HC_UPDATE_USERINFO = HC_HOST_URL + "api/patient/updateInfo"
+let HC_UPDATE_USERINFO = HC_HOST_URL + "api/member/updateInfo"
 //获取关注的医生列表
 let HC_ATTENTION_DOCTOR_LIST = HC_HOST_URL + "api/patient/attentionDoctorList"
 //获取医生列表

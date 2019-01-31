@@ -74,6 +74,10 @@ class UserTableViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.setNavigationBarHidden(false, animated: true)
+        
+        UserManager.shareIntance.updateUserInfo { success in
+            HCPrint(message: "获取用户信息结果：\(success)")
+        }
     }
     
     deinit {
@@ -129,21 +133,21 @@ class UserTableViewController: UIViewController {
     }
     
     func requestData(){
-        HttpRequestManager.shareIntance.HC_getH5URL(keyCode: "DOCTOR_ADVICE_URL_2017") { [weak self](success, info) in
-            if success == true {
-                self?.tableHeadV.doctorAdvice = info
-            }else{
-                HCShowError(info: info)
-            }
-        }
+//        HttpRequestManager.shareIntance.HC_getH5URL(keyCode: "DOCTOR_ADVICE_URL_2017") { [weak self](success, info) in
+//            if success == true {
+//                self?.tableHeadV.doctorAdvice = info
+//            }else{
+//                HCShowError(info: info)
+//            }
+//        }
         
-        HttpRequestManager.shareIntance.HC_getH5URL(keyCode: "PATIENT_FEEDBACK") { [weak self](success, info) in
-            if success == true {
-                self?.feedbackURL = info
-            }else{
-                HCShowError(info: info)
-            }
-        }
+//        HttpRequestManager.shareIntance.HC_getH5URL(keyCode: "PATIENT_FEEDBACK") { [weak self](success, info) in
+//            if success == true {
+//                self?.feedbackURL = info
+//            }else{
+//                HCShowError(info: info)
+//            }
+//        }
     }
     
     override func didReceiveMemoryWarning() {
