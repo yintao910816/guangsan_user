@@ -14,7 +14,7 @@ class ConsultViewController: BaseViewController, UITableViewDelegate, UITableVie
 
     lazy var tableView : UITableView = {
         let space = AppDelegate.shareIntance.space
-        let t = UITableView.init(frame: CGRect.init(x: 0, y: space.topSpace + 44, width: SCREEN_WIDTH, height: SCREEN_HEIGHT - space.topSpace - space.bottomSpace - 92))
+        let t = UITableView.init(frame: CGRect.init(x: 0, y: 0, width: SCREEN_WIDTH, height: SCREEN_HEIGHT - space.topSpace - space.bottomSpace - 92))
         self.view.addSubview(t)
         t.separatorStyle = .none
         t.dataSource = self
@@ -58,9 +58,9 @@ class ConsultViewController: BaseViewController, UITableViewDelegate, UITableVie
         let contV = UIView.init(frame: CGRect.init(x: 0, y: 0, width: SCREEN_WIDTH - 40, height: 30))
         
         let searchBtn = UIButton.init(frame: CGRect.init(x: 0, y: 0, width: SCREEN_WIDTH - 120, height: 30))
-        searchBtn.setImage(UIImage.init(named: "搜索灰"), for: UIControlState.normal)
+        searchBtn.setImage(UIImage.init(named: "搜索"), for: UIControlState.normal)
         searchBtn.setTitle("搜索医生", for: UIControlState.normal)
-        searchBtn.setTitleColor(kLightTextColor, for: UIControlState.normal)
+        searchBtn.setTitleColor(.white, for: UIControlState.normal)
         searchBtn.titleLabel?.font = UIFont.init(name: kReguleFont, size: 14)
         searchBtn.layer.cornerRadius = 15
         searchBtn.layer.borderColor = kLightTextColor.cgColor
@@ -73,7 +73,7 @@ class ConsultViewController: BaseViewController, UITableViewDelegate, UITableVie
         let rightBtn = UIButton.init(frame: CGRect.init(x: SCREEN_WIDTH - 100, y: 0, width: 60, height: 30))
         rightBtn.setTitle("咨询记录", for: .normal)
         rightBtn.titleLabel?.font = UIFont.init(name: kReguleFont, size: 14)
-        rightBtn.setTitleColor(kLightTextColor, for: .normal)
+        rightBtn.setTitleColor(.white, for: .normal)
         rightBtn.addTarget(self, action: #selector(ConsultViewController.consultRecord), for: .touchUpInside)
         
         contV.addSubview(rightBtn)

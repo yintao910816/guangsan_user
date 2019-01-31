@@ -13,7 +13,7 @@ class UserInfoViewController: BaseViewController {
     
     lazy var tableV : UITableView = {
         let space = AppDelegate.shareIntance.space
-        let t = UITableView.init(frame: CGRect.init(x: 0, y: space.topSpace + 44, width: SCREEN_WIDTH, height: SCREEN_HEIGHT - space.topSpace - space.bottomSpace - 44))
+        let t = UITableView.init(frame: CGRect.init(x: 0, y: 0, width: SCREEN_WIDTH, height: SCREEN_HEIGHT - space.bottomSpace - 44))
         t.backgroundColor = klightGrayColor
         t.dataSource = self
         t.delegate = self

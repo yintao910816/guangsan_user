@@ -31,7 +31,7 @@ class UserHeadView: UIView {
                 headImgV.image = UIImage.init(named: "默认头像")
             }
             
-            phoneL.text = userInfoM?.nickname ?? "昵称未填写"
+            phoneL.text = userInfoM?.name ?? "昵称未填写"
             
             if userInfoM?.sex?.intValue == 1 {
                 attentionL.text = "男"
@@ -41,10 +41,10 @@ class UserHeadView: UIView {
         }
     }
     
-    override init(frame: CGRect) {
+    init(frame: CGRect, topMargin: CGFloat) {
         super.init(frame: frame)
         
-        let containerV = UIView.init(frame: CGRect.init(x: 0, y: 0, width: SCREEN_WIDTH, height: 100))
+        let containerV = UIView.init(frame: CGRect.init(x: 0, y: 0, width: frame.width, height: 100 + topMargin))
         containerV.backgroundColor = kDefaultThemeColor
         self.addSubview(containerV)
         
@@ -54,7 +54,7 @@ class UserHeadView: UIView {
         containerV.addSubview(headImgV)
         headImgV.snp.updateConstraints { (make) in
             make.left.equalTo(containerV).offset(20)
-            make.top.equalTo(containerV).offset(20)
+            make.top.equalTo(containerV).offset(topMargin + 20)
             make.width.height.equalTo(60)
         }
         headImgV.layer.cornerRadius = 30
@@ -103,7 +103,9 @@ class UserHeadView: UIView {
         rightImgV.image = UIImage.init(named: "userRight")
         
         
-        let containerV2 = UIView.init(frame: CGRect.init(x: 0, y: 100, width: SCREEN_WIDTH, height: 80))
+        let containerV2 = UIView.init(frame: CGRect.init(x: 0, y: containerV.frame.maxY,
+                                                         width: SCREEN_WIDTH,
+                                                         height: frame.height - containerV.frame.height))
         containerV2.backgroundColor = kdivisionColor
         self.addSubview(containerV2)
         
@@ -124,7 +126,7 @@ class UserHeadView: UIView {
             make.top.bottom.equalTo(containerV2)
             make.width.equalTo(width)
         }
-        consultBtn.setTitle("问诊记录", for: UIControlState.normal)
+        consultBtn.setTitle("我的问诊", for: UIControlState.normal)
         consultBtn.setImage(UIImage.init(named: "问诊"), for: UIControlState.normal)
         
         consultBtn.addTarget(self, action: #selector(UserHeadView.consult), for: .touchUpInside)
@@ -135,7 +137,7 @@ class UserHeadView: UIView {
             make.top.bottom.equalTo(containerV2)
             make.width.equalTo(width)
         }
-        collectBtn.setTitle("我的收藏", for: UIControlState.normal)
+        collectBtn.setTitle("我的圈子", for: UIControlState.normal)
         collectBtn.setImage(UIImage.init(named: "收藏"), for: UIControlState.normal)
         
         collectBtn.addTarget(self, action: #selector(UserHeadView.myCollect), for: UIControlEvents.touchUpInside)
@@ -176,38 +178,38 @@ class UserHeadView: UIView {
     
     //预约
     func register(){
-        SVProgressHUD.show()
-        HttpRequestManager.shareIntance.HC_getH5URL(keyCode: kRegisterURL) { [weak self](success, info) in
-            if success == true {
-                self?.checkForRegister(urlS: info)
-            }else{
-                HCShowError(info: info)
-            }
-        }
+//        SVProgressHUD.show()
+//        HttpRequestManager.shareIntance.HC_getH5URL(keyCode: kRegisterURL) { [weak self](success, info) in
+//            if success == true {
+//                self?.checkForRegister(urlS: info)
+//            }else{
+//                HCShowError(info: info)
+//            }
+//        }
     }
     
     func consult(){
-        naviVC?.pushViewController(ConsultRecordViewController(), animated: true)
+//        naviVC?.pushViewController(ConsultRecordViewController(), animated: true)
     }
     
     
     func myCollect(){
         
-        let bbsToken = UserManager.shareIntance.HCUserInfo?.BBSToken
-        guard bbsToken != nil else{
-            HCShowError(info: "没有获取BBSToken")
-            return
-        }
-
-        let bbsRootUrl = UserManager.shareIntance.HCUserInfo?.bbsFgiUrl
-        guard bbsRootUrl != nil else {
-            HCShowError(info: "没有获取bbsURL")
-            return
-        }
-
-        let webVC = WebViewController()
-        webVC.url = bbsRootUrl! + COLLECT_URL + "?bbsToken=" + bbsToken!
-        naviVC?.pushViewController(webVC, animated: true)
+//        let bbsToken = UserManager.shareIntance.HCUserInfo?.BBSToken
+//        guard bbsToken != nil else{
+//            HCShowError(info: "没有获取BBSToken")
+//            return
+//        }
+//
+//        let bbsRootUrl = UserManager.shareIntance.HCUserInfo?.bbsFgiUrl
+//        guard bbsRootUrl != nil else {
+//            HCShowError(info: "没有获取bbsURL")
+//            return
+//        }
+//
+//        let webVC = WebViewController()
+//        webVC.url = bbsRootUrl! + COLLECT_URL + "?bbsToken=" + bbsToken!
+//        naviVC?.pushViewController(webVC, animated: true)
     }
     
     required init?(coder aDecoder: NSCoder) {

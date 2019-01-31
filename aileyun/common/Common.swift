@@ -48,7 +48,7 @@ let appName = "爱乐孕"
 let slogan = "爱乐孕，圆你一生好孕"
 let logoName = "logo144"
 let shareURL = "http://t.cn/RYUiDdR"
-let kDefaultThemeColor = UIColor.init(red: 255/255.0, green: 124/255.0, blue: 133/255.0, alpha: 1)
+let kDefaultThemeColor = UIColor.init(red: 138/255.0, green: 60/255.0, blue: 109/255.0, alpha: 1)
 
 //第三方登录  爱乐孕相关APPID
 let weixinAppid = "wx870ac6243698c3f6"

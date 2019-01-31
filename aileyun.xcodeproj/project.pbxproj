@@ -332,6 +332,7 @@
 		3CFAAEFE1F5013C600096D98 /* HC_consultCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CFAAEFD1F5013C600096D98 /* HC_consultCellModel.swift */; };
 		3CFAAF001F50170800096D98 /* HC_consultViewmodel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CFAAEFF1F50170800096D98 /* HC_consultViewmodel.swift */; };
 		3CFADBD31F6908B2008E3E1E /* noData.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CFADBD11F6908B2008E3E1E /* noData.png */; };
+		B841C7422202E1070029E795 /* UIDevice+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B841C7412202E1070029E795 /* UIDevice+Extension.swift */; };
 		B85ECA1721ABE7B0008212E0 /* CodeScan.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B85EC81821ABE7AF008212E0 /* CodeScan.bundle */; };
 		B85ECA1821ABE7B0008212E0 /* LBXScanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B85EC81B21ABE7AF008212E0 /* LBXScanViewController.m */; };
 		B85ECA1921ABE7B0008212E0 /* LBXScanViewStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = B85EC81C21ABE7AF008212E0 /* LBXScanViewStyle.m */; };
@@ -925,6 +926,7 @@
 		3CFAAEFF1F50170800096D98 /* HC_consultViewmodel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HC_consultViewmodel.swift; sourceTree = "<group>"; };
 		3CFADBD11F6908B2008E3E1E /* noData.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = noData.png; sourceTree = "<group>"; };
 		6D2808A40648D35BFB8F8A19 /* Pods-aileyun.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-aileyun.debug.xcconfig"; path = "Pods/Target Support Files/Pods-aileyun/Pods-aileyun.debug.xcconfig"; sourceTree = "<group>"; };
+		B841C7412202E1070029E795 /* UIDevice+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIDevice+Extension.swift"; sourceTree = "<group>"; };
 		B85EC81821ABE7AF008212E0 /* CodeScan.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = CodeScan.bundle; sourceTree = "<group>"; };
 		B85EC81921ABE7AF008212E0 /* LBXScanView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LBXScanView.h; sourceTree = "<group>"; };
 		B85EC81A21ABE7AF008212E0 /* LBXScanNetAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LBXScanNetAnimation.h; sourceTree = "<group>"; };
@@ -2054,6 +2056,7 @@
 		3C60B6741F189489004B4AFA /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				B841C7412202E1070029E795 /* UIDevice+Extension.swift */,
 				3C60B6751F189489004B4AFA /* DateExtension.swift */,
 			);
 			path = Extension;
@@ -3596,6 +3599,7 @@
 				B85ECA9C21ABE7B0008212E0 /* ZXMaxiCodeReader.m in Sources */,
 				B85ECA2E21ABE7B0008212E0 /* ZXByQuadrantReader.m in Sources */,
 				B85ECAAE21ABE7B0008212E0 /* ZXRSSExpandedDecodedInformation.m in Sources */,
+				B841C7422202E1070029E795 /* UIDevice+Extension.swift in Sources */,
 				B85ECAD121ABE7B0008212E0 /* ZXCode39Writer.m in Sources */,
 				B85ECAAF21ABE7B0008212E0 /* ZXAI013103decoder.m in Sources */,
 				3C1196221F469A40006DB0B8 /* FunctionCollectionViewCell.swift in Sources */,

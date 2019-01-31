@@ -20,9 +20,13 @@ class BaseNavigationController: UINavigationController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        self.navigationBar.shadowImage = UIImage()
+//        self.navigationBar.setBackgroundImage(UIImage(), for: .default)
+//        self.navigationBar.shadowImage = UIImage()
         
+        navigationBar.barTintColor   =  kDefaultThemeColor
+        navigationBar.isTranslucent  = false
+        navigationBar.titleTextAttributes = [NSForegroundColorAttributeName :UIColor.white]
+
 //        self.navigationController?.navigationBar.tintColor = UIColor.white
 //        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
 
@@ -43,6 +47,13 @@ class BaseNavigationController: UINavigationController {
             let pan = UIPanGestureRecognizer(target:target,
                                              action:Selector("handleNavigationTransition:"))
             viewController.view.addGestureRecognizer(pan)
+            
+            let backButton : UIButton = UIButton(type : .system)
+            backButton.setImage(UIImage(named :"navigationButtonReturn")?.withRenderingMode(.alwaysOriginal), for: .normal)
+            backButton.setImage(UIImage(named :"navigationButtonReturnClick")?.withRenderingMode(.alwaysOriginal), for: .highlighted)
+            backButton.addTarget(self, action :#selector(popToParent), for: .touchUpInside)
+            backButton.sizeToFit()
+            viewController.navigationItem.leftBarButtonItem = UIBarButtonItem(customView:backButton)
         }
         super.pushViewController(viewController, animated: true)
     }

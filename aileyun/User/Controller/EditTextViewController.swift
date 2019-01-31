@@ -66,7 +66,7 @@ class EditTextViewController: BaseViewController {
     lazy var sexArr = ["男", "女"]
     
     lazy var inputF : UITextField = {
-        let f = UITextField.init(frame: CGRect.init(x: 20, y: 100, width: SCREEN_WIDTH - 40, height: 44))
+        let f = UITextField.init(frame: CGRect.init(x: 20, y: 20, width: SCREEN_WIDTH - 40, height: 44))
         f.placeholder = "请输入"
         f.layer.cornerRadius = 5
         f.clearButtonMode = .whileEditing
@@ -79,7 +79,7 @@ class EditTextViewController: BaseViewController {
     
     
     lazy var headImgV : UIImageView = {
-        let h = UIImageView.init(frame: CGRect.init(x: 80, y: 100, width: SCREEN_WIDTH - 160, height: SCREEN_WIDTH - 160))
+        let h = UIImageView.init(frame: CGRect.init(x: 80, y: 20, width: SCREEN_WIDTH - 160, height: SCREEN_WIDTH - 160))
         h.layer.cornerRadius = 5
         h.clipsToBounds = true
         h.contentMode = UIViewContentMode.scaleAspectFill
@@ -115,7 +115,7 @@ class EditTextViewController: BaseViewController {
         self.navigationItem.rightBarButtonItem = rightItem
         
         let space = AppDelegate.shareIntance.space
-        let backV = UIView.init(frame: CGRect.init(x: 0, y: space.topSpace + 44, width: SCREEN_WIDTH, height: SCREEN_HEIGHT - space.topSpace - space.bottomSpace - 44))
+        let backV = UIView.init(frame: CGRect.init(x: 0, y: 0, width: SCREEN_WIDTH, height: SCREEN_HEIGHT - space.bottomSpace - 44))
         backV.backgroundColor = klightGrayColor
         self.view.addSubview(backV)
     }

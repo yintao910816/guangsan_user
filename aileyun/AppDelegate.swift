@@ -59,6 +59,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate{
         
         let rect = UIScreen.main.bounds
         window = UIWindow.init(frame: rect)
+        window?.backgroundColor = .white
         window?.rootViewController = defaultViewController
         window?.makeKeyAndVisible()
         return true

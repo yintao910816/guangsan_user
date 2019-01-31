@@ -33,9 +33,9 @@ class BaseViewController: UIViewController {
     }
 //
     override func viewWillAppear(_ animated: Bool) {
-        self.navigationController?.navigationBar.tintColor = kLightTextColor
-        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : kLightTextColor]
-        self.navigationController?.setNavigationBarHidden(false, animated: true)
+        self.navigationController?.navigationBar.tintColor = kDefaultThemeColor
+        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
+        self.navigationController?.setNavigationBarHidden(false, animated: animated)
     }
 //
 //    override func didReceiveMemoryWarning() {
