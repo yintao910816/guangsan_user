@@ -88,7 +88,7 @@ class WebViewController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+//        navigationController?.setNavigationBarHidden(true, animated: animated)
 //        if self.url!.contains("postTopic.html"){
 //            let rightItem = UIBarButtonItem.init(title: "发表", style: .plain, target: self, action: #selector(WebViewController.publish))
 //            self.navigationItem.rightBarButtonItem = rightItem
@@ -239,39 +239,77 @@ extension WebViewController : UIWebViewDelegate{
         HCPrint(message: "didFinishLoad")
         SVProgressHUD.dismiss()
         
-        context = webView.value(forKeyPath: "documentView.webView.mainFrame.javaScriptContext") as! JSContext
+        context = (webView.value(forKeyPath: "documentView.webView.mainFrame.javaScriptContext") as! JSContext)
         
         // JS调用了无参数swift方法
-        let backtohis: @convention(block) () ->() = {[weak self]in
+//        let backtohis: @convention(block) () ->() = {[weak self]in
+//            DispatchQueue.main.async {
+//                self?.navigationController?.popViewController(animated: true)
+//            }
+//        }
+//        context?.setObject(unsafeBitCast(backtohis, to: AnyObject.self), forKeyedSubscript: "backtohis" as NSCopying & NSObjectProtocol)
+        
+        let backHomeFnApi: @convention(block) () ->() = {[weak self]in
             DispatchQueue.main.async {
-                self?.navigationController?.popViewController(animated: true)
+                HCPrint(message: "h5 调用 - backHomeFnApi")
+
+                self?.navigationController?.popToRootViewController(animated: true)
             }
         }
-        context?.setObject(unsafeBitCast(backtohis, to: AnyObject.self), forKeyedSubscript: "backtohis" as NSCopying & NSObjectProtocol)
+        context?.setObject(unsafeBitCast(backHomeFnApi, to: AnyObject.self), forKeyedSubscript: "backHomeFnApi" as NSCopying & NSObjectProtocol)
         
-        // JS调用打开网页
-        let nativeOpenURL: @convention(block) () ->() = {
-            let array = JSContext.currentArguments() // 这里接到的array中的内容是JSValue类型
-            self.openURL(url: (array?[0] as AnyObject).toString(), title: (array?[1] as AnyObject).toString())
+        let backToList: @convention(block) () ->() = {[weak self]in
+            DispatchQueue.main.async {
+                HCPrint(message: "h5 调用 - backToList")
+
+                if self?.webView.canGoBack == true {
+                    self?.webView.goBack()
+                }
+            }
+        }
+        context?.setObject(unsafeBitCast(backToList, to: AnyObject.self), forKeyedSubscript: "backToList" as NSCopying & NSObjectProtocol)
+
+        let userInvalid: @convention(block) () ->() = { _ in
+            DispatchQueue.main.async {
+                HCPrint(message: "h5 调用 - userInvalid")
+                UserManager.shareIntance.logout()
+            }
+        }
+        context?.setObject(unsafeBitCast(userInvalid, to: AnyObject.self), forKeyedSubscript: "userInvalid" as NSCopying & NSObjectProtocol)
+        
+        let isApp: @convention(block) () ->() = { _ in
+            HCPrint(message: "暂时不用 - isApp")
+        }
+        context?.setObject(unsafeBitCast(isApp, to: AnyObject.self), forKeyedSubscript: "isApp" as NSCopying & NSObjectProtocol)
+        
+        let nativeOpenURL: @convention(block) () ->() = { _ in
+            HCPrint(message: "暂时不用 - nativeOpenURL")
         }
         context?.setObject(unsafeBitCast(nativeOpenURL, to: AnyObject.self), forKeyedSubscript: "nativeOpenURL" as NSCopying & NSObjectProtocol)
-        
-        // JS调用改变收藏状态
-        let postCollectStatus: @convention(block) () ->() = {
-            let array = JSContext.currentArguments() // 这里接到的array中的内容是JSValue类型
-            self.changeRightBarButton(status: (array?[0] as AnyObject).toNumber())
-        }
-        context?.setObject(unsafeBitCast(postCollectStatus, to: AnyObject.self), forKeyedSubscript: "postCollectStatus" as NSCopying & NSObjectProtocol)
-        
-        // JS调用删除帖子，回退并刷新界面
-        let deleteArticle: @convention(block) () ->() = {
-            DispatchQueue.main.async {[weak self]in
-                let not = Notification.init(name: NSNotification.Name.init(DELETE_ARTICLE), object: nil, userInfo: nil)
-                NotificationCenter.default.post(not)
-                self?.navigationController?.popViewController(animated: true)
-            }
-        }
-        context?.setObject(unsafeBitCast(deleteArticle, to: AnyObject.self), forKeyedSubscript: "closePage" as NSCopying & NSObjectProtocol)
+
+//        // JS调用打开网页
+//        let nativeOpenURL: @convention(block) () ->() = {
+//            let array = JSContext.currentArguments() // 这里接到的array中的内容是JSValue类型
+//            self.openURL(url: (array?[0] as AnyObject).toString(), title: (array?[1] as AnyObject).toString())
+//        }
+//        context?.setObject(unsafeBitCast(nativeOpenURL, to: AnyObject.self), forKeyedSubscript: "nativeOpenURL" as NSCopying & NSObjectProtocol)
+//
+//        // JS调用改变收藏状态
+//        let postCollectStatus: @convention(block) () ->() = {
+//            let array = JSContext.currentArguments() // 这里接到的array中的内容是JSValue类型
+//            self.changeRightBarButton(status: (array?[0] as AnyObject).toNumber())
+//        }
+//        context?.setObject(unsafeBitCast(postCollectStatus, to: AnyObject.self), forKeyedSubscript: "postCollectStatus" as NSCopying & NSObjectProtocol)
+//
+//        // JS调用删除帖子，回退并刷新界面
+//        let deleteArticle: @convention(block) () ->() = {
+//            DispatchQueue.main.async {[weak self]in
+//                let not = Notification.init(name: NSNotification.Name.init(DELETE_ARTICLE), object: nil, userInfo: nil)
+//                NotificationCenter.default.post(not)
+//                self?.navigationController?.popViewController(animated: true)
+//            }
+//        }
+//        context?.setObject(unsafeBitCast(deleteArticle, to: AnyObject.self), forKeyedSubscript: "closePage" as NSCopying & NSObjectProtocol)
         
         context?.exceptionHandler = {(context, value)in
             HCPrint(message: value)
