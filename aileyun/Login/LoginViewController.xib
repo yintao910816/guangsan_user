@@ -222,7 +222,7 @@
                 <constraint firstItem="9nn-5W-3uW" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="luE-Lz-N0I"/>
                 <constraint firstAttribute="bottom" secondItem="9nn-5W-3uW" secondAttribute="bottom" id="yG0-cN-jUf"/>
             </constraints>
-            <point key="canvasLocation" x="-351" y="147"/>
+            <point key="canvasLocation" x="-7436" y="1332"/>
         </view>
         <tapGestureRecognizer id="UUA-PS-NfL">
             <connections>
