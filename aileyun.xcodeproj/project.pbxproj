@@ -3013,6 +3013,7 @@
 				TargetAttributes = {
 					3C3D782F1EF3C07600DE6F46 = {
 						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = J9M9SRP484;
 						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
@@ -3768,7 +3769,7 @@
 				CODE_SIGN_ENTITLEMENTS = aileyun/aileyun.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = J9M9SRP484;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3823,9 +3824,9 @@
 					"-all_load",
 					"-fobjc-arc",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.huchuang.guangsan;
+				PRODUCT_BUNDLE_IDENTIFIER = com.huchuang.guangsanuser;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = guangsan_user_dev_profile;
 				SWIFT_OBJC_BRIDGING_HEADER = aileyun/Bridge.h;
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -3839,9 +3840,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = aileyun/aileyun.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = J9M9SRP484;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3896,9 +3897,9 @@
 					"-all_load",
 					"-fobjc-arc",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.huchuang.guangsan;
+				PRODUCT_BUNDLE_IDENTIFIER = com.huchuang.guangsanuser;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = guangsan_user_hoc_pro;
 				SWIFT_OBJC_BRIDGING_HEADER = aileyun/Bridge.h;
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
