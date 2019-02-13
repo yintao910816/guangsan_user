@@ -47,10 +47,9 @@ class GoodNewsView: UIView {
         self.backgroundColor = UIColor.white
         
         initUI()
+        tableV.register(GoodNewsTableViewCell.self, forCellReuseIdentifier: reuseIdentifier)
         
         defaultData()
-        
-        tableV.register(GoodNewsTableViewCell.self, forCellReuseIdentifier: reuseIdentifier)
     }
     
     func defaultData(){

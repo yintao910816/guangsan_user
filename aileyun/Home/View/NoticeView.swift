@@ -60,10 +60,8 @@ class NoticeView: UIView {
         self.backgroundColor = UIColor.white
         
         initUI()
-        
-        defaultData()
-        
         tableV.register(NotiveViewTVCell.self, forCellReuseIdentifier: reuseIdentifier)
+        defaultData()
     }
     
     func defaultData(){
